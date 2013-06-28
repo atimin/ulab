@@ -18,10 +18,10 @@ Provu en radiko de projekto:  `gcc -o test test.c u_lab.c`
 Ligiloj
 -------------------------------------------
 
-[Kodo][1] - la projekto en GutHub
-[Ligo de Internacia Programado][2] - se vi komprenas cxi teksto, partoprenu!
-[LAPACK][3] - la granda frato
-[Komputeko][4] - la vortaro da komputikaj terminoj
+* [Kodo][1] - la projekto en GutHub
+* [Ligo de Internacia Programado][2] - se vi komprenas cxi teksto, partoprenu!
+* [LAPACK][3] - la granda frato
+* [Komputeko][4] - la vortaro da komputikaj terminoj
 
 [1]:https://github.com/flipback/ulab
 [2]:http://www.ldip.org
