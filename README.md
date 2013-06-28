@@ -1,22 +1,22 @@
 Micro-Lineara Algebra biblioteko
--------------------------------------------
+==========================================
 
 uLAB estas simpla kaj eta biblioteko de agoj kun matricoj skribata per C, 
 kiu devas funkcii cxie ecx por 8-bitaj mikroreguliloj.
 
 Instalado
-==========================================
+-------------------------------------------
 
 Simple kopiu dosierojn en via projekto.
 
 
 Testado
-=========================================
+-------------------------------------------
 
 Provu en radiko de projekto:  `gcc -o test test.c u_lab.c`
 
 Ligiloj
-=========================================
+-------------------------------------------
 
 [Kodo][1] - la projekto en GutHub
 [Ligo de Internacia Programado][2] - se vi komprenas cxi teksto, partoprenu!
