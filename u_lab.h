@@ -26,7 +26,7 @@ LA PROGRAMARO AUX GXIA UZADO. */
 typedef unsigned int ulab_dim_t;
 
 /* Tipo, kiun uzas por elementoj de matrico
- * Vi povas same sxangxi gxin kiel neceso */
+ * Vi povas same sxangxi gxin kiel necese */
 typedef int ulab_element_t;
 
 /* Tipo de eraro. Eraro egalas 1, se kodo ruligxis sen problemoj */
@@ -38,11 +38,15 @@ typedef enum {
 /* La gxenerala strukturo de densa matrico */
 typedef struct 
 {
-  ulab_dim_t      *shape;
-  ulab_element_t  *data;
+  ulab_dim_t      dim;      /* dimension de matrico */ 
+  ulab_dim_t      *shape;   /* formo de matrico - multo da linioj, kolumnoj k.t.p */ 
+  ulab_element_t  *data;    /* elementoj de matrico */
 } ulab_dense_matrix_t;
 
 /* Pravalorizo de matrico dense matrico */
-extern ulab_error_t ulab_dense_init(ulab_dense_matrix_t* matrix, ulab_dim_t *shape);
+extern ulab_error_t ulab_dense_init(ulab_dense_matrix_t* matrix, ulab_dim_t dim,  ulab_dim_t *shape, ulab_element_t *data);
+
+/* Preni elementon de matrico */
+extern ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t *coord);
 
 #endif

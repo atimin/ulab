@@ -21,20 +21,73 @@ LA PROGRAMARO AUX GXIA UZADO. */
 
 #include "u_lab.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
+
+/*==============================================================================*/
+ulab_dense_matrix_t* make_2d_matrix(ulab_dim_t a, ulab_dim_t b)
+{
+  ulab_dense_matrix_t *m;
+
+  m = malloc(sizeof(ulab_dense_matrix_t));
+
+  m->dim = 2;
+
+  m->shape = malloc(sizeof(ulab_dim_t) * 2);
+  m->shape[0] = a;
+  m->shape[1] = b;
+
+  m->data = malloc(sizeof(ulab_element_t) * a * b);
+
+  return m;
+}
+
+void free_matrix(ulab_dense_matrix_t *m)
+{
+  free(m->data);
+  free(m->shape);
+  free(m);
+}
+/*=============================================================================*/
 
 void test_ulab_dense_init()
 {
   ulab_dense_matrix_t m;
+  ulab_dim_t shape[2] = {2,2};
+  ulab_element_t data[4];
+
   printf("Testas pravalorizon de denso matrico...");
-  assert(ulab_dense_init(&m, NULL));
+
+  assert(ulab_dense_init(&m, 2, shape, data));
+  assert(m.dim ==  2);
+  assert(m.shape ==  shape);
+  assert(m.data ==  data);
+
   printf("\t\t\t\[OK]\n");
   
+}
+
+void test_ulab_dense_get()
+{
+  printf("Testas prenadon de elemento de denso matrico...");
+
+  ulab_dense_matrix_t *m;
+  ulab_element_t val = 0;
+  ulab_dim_t coord[2] = {3,3};
+
+  m = make_2d_matrix(4,4);
+  m->data[15] = 99;
+
+  ulab_dense_get(m, &val, coord);
+
+  assert(val == 99);
+
+  printf("\t\t\t\[OK]\n");
 }
 
 int main()
 {
   test_ulab_dense_init();
-
+  test_ulab_dense_get();
   return 1;
 }

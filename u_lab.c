@@ -21,7 +21,16 @@ LA PROGRAMARO AUX GXIA UZADO. */
 
 #include "u_lab.h"
 
-ulab_error_t  ulab_dense_init(ulab_dense_matrix_t *matrix, ulab_dim_t *shape)
+ulab_error_t  ulab_dense_init(ulab_dense_matrix_t *matrix, ulab_dim_t dim, ulab_dim_t *shape, ulab_element_t *data)
 {
-  return ULAB_ERROR;
+  matrix->dim = dim;
+  matrix->shape = shape;
+  matrix->data = data;
+
+  return ULAB_OK;
+}
+
+ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t *coord)
+{
+  return ULAB_OK;
 }
