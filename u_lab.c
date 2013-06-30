@@ -31,7 +31,7 @@ ulab_error_t  ulab_dense_init(ulab_dense_matrix_t *matrix, ulab_dim_t dim, ulab_
   return ULAB_OK;
 }
 
-/* Preni elementon de matrico */
+/* Legi elementon de matrico */
 ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t *coord)
 {
   ulab_dim_t strides[matrix->dim];
@@ -51,6 +51,30 @@ ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, 
     p += strides[i] * coord[i];
 
   *value = matrix->data[p];
+
+  return ULAB_OK;
+}
+
+/* Skribi en elementon de matrico  */
+ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t value, ulab_dim_t *coord)
+{
+  ulab_dim_t strides[matrix->dim];
+  int i;
+
+  /* TODO: Aldonu teston por eliro de koordinatoj ekster dimensio de matrico. */
+  /* Kalkulu pasxojn por sercxado de elemento cxe linia tabulo */
+  strides[matrix->dim - 1] = 1;        
+
+  for(i = matrix->dim - 2; i >= 0; i--) {
+    strides[i] = strides[i+1] * matrix->shape[i+1];
+  }
+
+  /* Serxado de elemento */
+  ulab_dim_t p = 0;
+  for(i=0; i < matrix->dim; i++)
+    p += strides[i] * coord[i];
+
+  matrix->data[p] = value;
 
   return ULAB_OK;
 }

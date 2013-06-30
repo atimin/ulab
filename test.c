@@ -69,7 +69,7 @@ void test_ulab_dense_init()
 
 void test_ulab_dense_get()
 {
-  printf("Testas prenadon de elemento de denso matrico...");
+  printf("Testas legadon de elemento de denso matrico...");
 
   ulab_dense_matrix_t *m;
   ulab_element_t val = 0;
@@ -86,9 +86,29 @@ void test_ulab_dense_get()
   free_matrix(m);
 }
 
+void test_ulab_dense_set()
+{
+  printf("Testas skribadon de elemento de denso matrico...");
+
+  ulab_dense_matrix_t *m;
+  ulab_element_t val = 0;
+  ulab_dim_t coord[2] = {2,1};
+
+  m = make_2d_matrix(4,4);
+
+  ulab_dense_set(m, 66, coord);
+  assert(66 == m->data[9]);
+
+  printf("\t\[Bone]\n");
+
+  free_matrix(m);
+}
+
+
 int main()
 {
   test_ulab_dense_init();
   test_ulab_dense_get();
+  test_ulab_dense_set();
   return 1;
 }
