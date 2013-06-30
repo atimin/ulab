@@ -63,7 +63,7 @@ void test_ulab_dense_init()
   assert(m.shape ==  shape);
   assert(m.data ==  data);
 
-  printf("\t\t\t\[OK]\n");
+  printf("\t\[Bone]\n");
   
 }
 
@@ -79,10 +79,11 @@ void test_ulab_dense_get()
   m->data[15] = 99;
 
   ulab_dense_get(m, &val, coord);
+  assert(val == m->data[15]);
 
-  assert(val == 99);
+  printf("\t\[Bone]\n");
 
-  printf("\t\t\t\[OK]\n");
+  free_matrix(m);
 }
 
 int main()
