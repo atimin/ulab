@@ -20,7 +20,6 @@ LAUX EFIKANTAJ KONTRAKTOJ AUX LAUX IA AJN ALIA KIALO, KIU RILATAS KUN
 LA PROGRAMARO AUX GXIA UZADO. */
 
 #include "u_lab.h"
-#include <stdio.h>
 
 /* Pravalorizo de matrico dense matrico */
 ulab_error_t  ulab_dense_init(ulab_dense_matrix_t *matrix, ulab_dim_t dim, ulab_dim_t *shape, ulab_element_t *data)
