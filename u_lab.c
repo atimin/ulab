@@ -20,6 +20,36 @@ LAUX EFIKANTAJ KONTRAKTOJ AUX LAUX IA AJN ALIA KIALO, KIU RILATAS KUN
 LA PROGRAMARO AUX GXIA UZADO. */
 
 #include "u_lab.h"
+#include <stdio.h>
+/*======================================================================
+ * Privataj funkcioj 
+ * ===================================================================*/
+
+/* Sercxado de indekso de elemento per koordinatoj */
+ulab_error_t ulab_search_element(ulab_dense_matrix_t* matrix, ulab_dim_t *index, ulab_dim_t *coord)
+{
+  ulab_dim_t strides[matrix->dim];
+  int i;
+
+  /* TODO: Aldonu teston por eliro de koordinatoj ekster dimensio de matrico. */
+  /* Kalkulu pasxojn por sercxado de elemento cxe linia tabulo */
+  strides[matrix->dim - 1] = 1;        
+
+  for(i = matrix->dim - 2; i >= 0; i--) {
+    strides[i] = strides[i+1] * matrix->shape[i+1];
+  }
+
+  /* Serxado de elemento */
+  *index = 0;
+  for(i=0; i < matrix->dim; i++)
+    *index += strides[i] * coord[i];
+
+  return ULAB_OK;
+}
+
+/*======================================================================
+ * Publikaj funkcioj 
+ * ===================================================================*/
 
 /* Pravalorizo de matrico dense matrico */
 ulab_error_t  ulab_dense_init(ulab_dense_matrix_t *matrix, ulab_dim_t dim, ulab_dim_t *shape, ulab_element_t *data)
@@ -34,23 +64,10 @@ ulab_error_t  ulab_dense_init(ulab_dense_matrix_t *matrix, ulab_dim_t dim, ulab_
 /* Legi elementon de matrico */
 ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t *coord)
 {
-  ulab_dim_t strides[matrix->dim];
-  int i;
-
-  /* TODO: Aldonu teston por eliro de koordinatoj ekster dimensio de matrico. */
-  /* Kalkulu pasxojn por sercxado de elemento cxe linia tabulo */
-  strides[matrix->dim - 1] = 1;        
-
-  for(i = matrix->dim - 2; i >= 0; i--) {
-    strides[i] = strides[i+1] * matrix->shape[i+1];
-  }
-
-  /* Serxado de elemento */
-  ulab_dim_t p = 0;
-  for(i=0; i < matrix->dim; i++)
-    p += strides[i] * coord[i];
-
-  *value = matrix->data[p];
+  ulab_dim_t i;
+ 
+  ulab_search_element(matrix, &i, coord);
+  *value = matrix->data[i];
 
   return ULAB_OK;
 }
@@ -58,23 +75,10 @@ ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, 
 /* Skribi en elementon de matrico  */
 ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t value, ulab_dim_t *coord)
 {
-  ulab_dim_t strides[matrix->dim];
-  int i;
-
-  /* TODO: Aldonu teston por eliro de koordinatoj ekster dimensio de matrico. */
-  /* Kalkulu pasxojn por sercxado de elemento cxe linia tabulo */
-  strides[matrix->dim - 1] = 1;        
-
-  for(i = matrix->dim - 2; i >= 0; i--) {
-    strides[i] = strides[i+1] * matrix->shape[i+1];
-  }
-
-  /* Serxado de elemento */
-  ulab_dim_t p = 0;
-  for(i=0; i < matrix->dim; i++)
-    p += strides[i] * coord[i];
-
-  matrix->data[p] = value;
+  ulab_dim_t i;
+ 
+  ulab_search_element(matrix, &i, coord);
+  matrix->data[i] = value;
 
   return ULAB_OK;
 }
