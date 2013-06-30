@@ -43,10 +43,19 @@ typedef struct
   ulab_element_t  *data;    /* elementoj de matrico */
 } ulab_dense_matrix_t;
 
-/* Pravalorizo de matrico dense matrico */
+/* Pravalorizo de matrico dense matrico 
+ * @param matrix estas referenco al matrico, kiu estas pravalorizata 
+ * @param dim estas dimension de matrico 
+ * @param shape estas referenco al tabelo, kiu prezentos formo de matrico 
+ * @param data estas tableto de elementoj de matrico
+ * @return kodo de eraro @see ulab_error_t*/
 extern ulab_error_t ulab_dense_init(ulab_dense_matrix_t* matrix, ulab_dim_t dim,  ulab_dim_t *shape, ulab_element_t *data);
 
-/* Preni elementon de matrico */
+/* Preni elementon de matrico 
+ * @param matrix estas referenco al matrico, kiu estas pravalorizata 
+ * @param value estas referenco al variablo, kiu konservas rezulton 
+ * @param coord estas referenco al tabulo da koordinatoj de elementoj, kies valoron estas prenata 
+ * @return kodo de eraro @see ulab_error_t*/
 extern ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t *coord);
 
 #endif

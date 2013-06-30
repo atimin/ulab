@@ -19,7 +19,7 @@ Ligiloj
 -------------------------------------------
 
 * [Kodo][1] - la projekto en GutHub
-* [Ligo de Internacia Programado][2] - se vi komprenas cxi teksto, partoprenu!
+* [Ligo de Internacia Programado][2] - se vi komprenas cxi tekston, partoprenu!
 * [LAPACK][3] - la granda frato
 * [Komputeko][4] - la vortaro da komputikaj terminoj
 
