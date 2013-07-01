@@ -50,34 +50,30 @@ typedef struct
  * @param shape estas referenco al tabelo, kiu prezentos formo de matrico 
  * @param data estas tableto de elementoj de matrico
  * @return matrix estas referenco al matrico, kiu estas kreita */
-extern ulab_dense_matrix_t* ulab_create_dense_matrix(ulab_dim_t dim, ulab_dim_t* shape);
+extern ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t dim, ulab_dim_t* shape);
 
 /* Detrui matricon 
  * ATENDU: cxi funkcion uzanto de biblioteko devas programi mem
  * @param matrix estas referenco al matrico, kiu estas pravalorizata */
-extern void ulab_free_dense_matrix(ulab_dense_matrix_t *m);
-
-/* Pravalorizo de matrico dense matrico 
- * @param matrix estas referenco al matrico, kiu estas pravalorizata 
- * @param dim estas dimension de matrico 
- * @param shape estas referenco al tabelo, kiu prezentos formo de matrico 
- * @param data estas tableto de elementoj de matrico
- * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_dense_init(ulab_dense_matrix_t* matrix, ulab_dim_t dim,  ulab_dim_t *shape, ulab_element_t *data);
+extern void ulab_dense_free(ulab_dense_matrix_t *m);
 
 /* Legi elementon de matrico 
- * @param matrix estas referenco al matrico, kiu estas pravalorizata 
+ * @param matrix estas referenco al matrico
  * @param value estas referenco al variablo, kiu konservas rezulton 
  * @param coord estas referenco al tabulo da koordinatoj de elementoj, kies valoron estas prenata 
  * @return kodo de eraro @see ulab_error_t*/
 extern ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t *coord);
 
 /* Skribi en elementon de matrico 
- * @param matrix estas referenco al matrico, kiu estas pravalorizata 
+ * @param matrix estas referenco al matrico
  * @param value estas referenco al variablo, kiun oni skribas 
  * @param coord estas referenco al tabulo da koordinatoj de elementoj, kies valoron estas prenata 
  * @return kodo de eraro @see ulab_error_t*/
 extern ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t value, ulab_dim_t *coord);
 
-
+/* Kopii matricon 
+ * @param matrix estas referenco al matrico, kiu estas kopiata 
+ * @parar copy estas kopio de la fonta matrico, vi devas pasigi nepravalorizatan referencon
+ * @return kodo de eraro @see ulab_error_t*/
+extern ulab_error_t ulab_dense_copy(ulab_dense_matrix_t* matrix, ulab_dense_matrix_t* copy);
 #endif

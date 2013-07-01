@@ -25,7 +25,7 @@ LA PROGRAMARO AUX GXIA UZADO. */
 #include <assert.h>
 
 /*==============================================================================*/
-ulab_dense_matrix_t* ulab_create_dense_matrix(ulab_dim_t dim, ulab_dim_t* shape)
+ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t dim, ulab_dim_t* shape)
 {
   ulab_dense_matrix_t *m;
   int i, count;
@@ -47,7 +47,7 @@ ulab_dense_matrix_t* ulab_create_dense_matrix(ulab_dim_t dim, ulab_dim_t* shape)
   return m;
 }
 
-void ulab_free_dense_matrix(ulab_dense_matrix_t *m)
+void ulab_dense_free(ulab_dense_matrix_t *m)
 {
   free(m->data);
   free(m->shape);
@@ -64,7 +64,7 @@ void test_ulab_dense_get()
   ulab_element_t shape[2] = {4,4};
   ulab_dim_t coord[2] = {3,3};
 
-  m = ulab_create_dense_matrix(2, shape);
+  m = ulab_dense_create(2, shape);
   m->data[15] = 99;
 
   ulab_dense_get(m, &val, coord);
@@ -72,7 +72,7 @@ void test_ulab_dense_get()
 
   printf("\t\[Bone]\n");
 
-  ulab_free_dense_matrix(m);
+  ulab_dense_free(m);
 }
 
 void test_ulab_dense_set()
@@ -84,14 +84,14 @@ void test_ulab_dense_set()
   ulab_element_t shape[2] = {4,4};
   ulab_dim_t coord[2] = {2,1};
 
-  m = ulab_create_dense_matrix(2, shape);
+  m = ulab_dense_create(2, shape);
 
   ulab_dense_set(m, val, coord);
   assert(val == m->data[9]);
 
   printf("\t\[Bone]\n");
 
-  ulab_free_dense_matrix(m);
+  ulab_dense_free(m);
 }
 
 void test_checking_coords()
@@ -103,14 +103,37 @@ void test_checking_coords()
   ulab_element_t shape[2] = {4,4};
   ulab_dim_t coord[2] = {100,100};
 
-  m = ulab_create_dense_matrix(2, shape);
+  m = ulab_dense_create(2, shape);
 
   assert(ULAB_ERROR == ulab_dense_set(m, val, coord));
   assert(ULAB_ERROR == ulab_dense_get(m, &val, coord));
 
   printf("\t\[Bone]\n");
 
-  ulab_free_dense_matrix(m);
+  ulab_dense_free(m);
+}
+
+void test_copy()
+{
+  printf("Testas kopiado de densa matrico...");
+
+  ulab_dense_matrix_t *m, *n;
+  ulab_element_t val = 0;
+  ulab_element_t shape[2] = {4,4};
+  int i;
+
+  m = ulab_dense_create(2, shape);
+  ulab_dense_copy(m, n);
+
+  for (i = 0; i < shape[0]*shape[1]; i++) {
+    assert(m->data[i] == n->data[i]);
+  }
+
+
+  printf("\t\[Bone]\n");
+
+  ulab_dense_free(m);
+
 }
 
 int main()
@@ -118,6 +141,7 @@ int main()
   test_ulab_dense_get();
   test_ulab_dense_set();
   test_checking_coords();
+  test_copy();
 
   return 1;
 }

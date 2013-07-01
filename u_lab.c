@@ -79,3 +79,10 @@ ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t value, u
 
   return ULAB_OK;
 }
+
+/* Kopii matricon */
+ulab_error_t ulab_dense_copy(ulab_dense_matrix_t* matrix, ulab_dense_matrix_t* copy) 
+{
+  return ULAB_OK;
+}
+
