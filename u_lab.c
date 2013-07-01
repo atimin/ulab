@@ -54,17 +54,6 @@ ulab_error_t ulab_search_element(ulab_dense_matrix_t* matrix, ulab_dim_t *index,
 /*======================================================================
  * Publikaj funkcioj 
  * ===================================================================*/
-
-/* Pravalorizo de matrico dense matrico */
-ulab_error_t  ulab_dense_init(ulab_dense_matrix_t *matrix, ulab_dim_t dim, ulab_dim_t *shape, ulab_element_t *data)
-{
-  matrix->dim = dim;
-  matrix->shape = shape;
-  matrix->data = data;
-
-  return ULAB_OK;
-}
-
 /* Legi elementon de matrico */
 ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t *coord)
 {

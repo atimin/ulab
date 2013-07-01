@@ -25,24 +25,29 @@ LA PROGRAMARO AUX GXIA UZADO. */
 #include <assert.h>
 
 /*==============================================================================*/
-ulab_dense_matrix_t* make_2d_matrix(ulab_dim_t a, ulab_dim_t b)
+ulab_dense_matrix_t* ulab_create_dense_matrix(ulab_dim_t dim, ulab_dim_t* shape)
 {
   ulab_dense_matrix_t *m;
+  int i, count;
 
   m = malloc(sizeof(ulab_dense_matrix_t));
 
-  m->dim = 2;
+  m->dim = dim;
 
-  m->shape = malloc(sizeof(ulab_dim_t) * 2);
-  m->shape[0] = a;
-  m->shape[1] = b;
+  m->shape = malloc(sizeof(ulab_dim_t) * dim);
 
-  m->data = malloc(sizeof(ulab_element_t) * a * b);
+  count = 1;
+  for (i = 0; i < dim; i++) {
+    m->shape[i] = shape[i];
+    count *= shape[i];
+  }
+
+  m->data = malloc(count);
 
   return m;
 }
 
-void free_matrix(ulab_dense_matrix_t *m)
+void ulab_free_dense_matrix(ulab_dense_matrix_t *m)
 {
   free(m->data);
   free(m->shape);
@@ -50,32 +55,16 @@ void free_matrix(ulab_dense_matrix_t *m)
 }
 /*=============================================================================*/
 
-void test_ulab_dense_init()
-{
-  ulab_dense_matrix_t m;
-  ulab_dim_t shape[2] = {2,2};
-  ulab_element_t data[4];
-
-  printf("Testas pravalorizon de denso matrico...");
-
-  assert(ulab_dense_init(&m, 2, shape, data));
-  assert(m.dim ==  2);
-  assert(m.shape ==  shape);
-  assert(m.data ==  data);
-
-  printf("\t\[Bone]\n");
-  
-}
-
 void test_ulab_dense_get()
 {
   printf("Testas legadon de elemento de densa matrico...");
 
   ulab_dense_matrix_t *m;
   ulab_element_t val = 0;
+  ulab_element_t shape[2] = {4,4};
   ulab_dim_t coord[2] = {3,3};
 
-  m = make_2d_matrix(4,4);
+  m = ulab_create_dense_matrix(2, shape);
   m->data[15] = 99;
 
   ulab_dense_get(m, &val, coord);
@@ -83,7 +72,7 @@ void test_ulab_dense_get()
 
   printf("\t\[Bone]\n");
 
-  free_matrix(m);
+  ulab_free_dense_matrix(m);
 }
 
 void test_ulab_dense_set()
@@ -92,16 +81,17 @@ void test_ulab_dense_set()
 
   ulab_dense_matrix_t *m;
   ulab_element_t val = 66;
+  ulab_element_t shape[2] = {4,4};
   ulab_dim_t coord[2] = {2,1};
 
-  m = make_2d_matrix(4,4);
+  m = ulab_create_dense_matrix(2, shape);
 
   ulab_dense_set(m, val, coord);
   assert(val == m->data[9]);
 
   printf("\t\[Bone]\n");
 
-  free_matrix(m);
+  ulab_free_dense_matrix(m);
 }
 
 void test_checking_coords()
@@ -110,23 +100,21 @@ void test_checking_coords()
 
   ulab_dense_matrix_t *m;
   ulab_element_t val = 0;
+  ulab_element_t shape[2] = {4,4};
   ulab_dim_t coord[2] = {100,100};
 
-  m = make_2d_matrix(4,4);
+  m = ulab_create_dense_matrix(2, shape);
 
   assert(ULAB_ERROR == ulab_dense_set(m, val, coord));
   assert(ULAB_ERROR == ulab_dense_get(m, &val, coord));
 
   printf("\t\[Bone]\n");
 
-  free_matrix(m);
-
+  ulab_free_dense_matrix(m);
 }
-
 
 int main()
 {
-  test_ulab_dense_init();
   test_ulab_dense_get();
   test_ulab_dense_set();
   test_checking_coords();
