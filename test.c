@@ -53,95 +53,71 @@ void ulab_dense_free(ulab_dense_matrix_t *m)
   free(m->shape);
   free(m);
 }
+
+typedef void (*test_func)(ulab_dense_matrix_t*);
+void test_frame(const char *msg, test_func f)
+{
+  printf(msg);
+  
+  ulab_dense_matrix_t *m;
+  ulab_element_t shape[3] = {4,5,6};
+
+
+  m = ulab_dense_create(3, shape);
+
+  f(m);
+
+  printf("\t\[Bone]\n");
+  ulab_dense_free(m);
+}
 /*=============================================================================*/
 
-void test_ulab_dense_get()
+void test_ulab_dense_get(ulab_dense_matrix_t* m)
 {
-  printf("Testas legadon de elemento de densa matrico...");
-
-  ulab_dense_matrix_t *m;
   ulab_element_t val = 0;
-  ulab_element_t shape[2] = {4,4};
-  ulab_dim_t coord[2] = {3,3};
-
-  m = ulab_dense_create(2, shape);
-  m->data[15] = 99;
-
+  ulab_dim_t coord[3] = {3,3,3};
+  m->data[111] = 99;
   ulab_dense_get(m, &val, coord);
-  assert(val == m->data[15]);
 
-  printf("\t\[Bone]\n");
-
-  ulab_dense_free(m);
+  assert(val == m->data[111]);
 }
 
-void test_ulab_dense_set()
+void test_ulab_dense_set(ulab_dense_matrix_t* m)
 {
-  printf("Testas skribadon de elemento de densa matrico...");
-
-  ulab_dense_matrix_t *m;
   ulab_element_t val = 66;
-  ulab_element_t shape[2] = {4,4};
-  ulab_dim_t coord[2] = {2,1};
-
-  m = ulab_dense_create(2, shape);
-
+  ulab_dim_t coord[3] = {2,1,4};
   ulab_dense_set(m, val, coord);
-  assert(val == m->data[9]);
 
-  printf("\t\[Bone]\n");
-
-  ulab_dense_free(m);
+  assert(val == m->data[70]);
 }
 
-void test_checking_coords()
+void test_checking_coords(ulab_dense_matrix_t* m)
 {
-  printf("Testas foriron ekstre de densa  matrico...");
-
-  ulab_dense_matrix_t *m;
   ulab_element_t val = 0;
-  ulab_element_t shape[2] = {4,4};
-  ulab_dim_t coord[2] = {100,100};
-
-  m = ulab_dense_create(2, shape);
+  ulab_dim_t coord[3] = {4,5,6};
 
   assert(ULAB_ERROR == ulab_dense_set(m, val, coord));
   assert(ULAB_ERROR == ulab_dense_get(m, &val, coord));
-
-  printf("\t\[Bone]\n");
-
-  ulab_dense_free(m);
 }
 
-void test_copy()
+void test_copy(ulab_dense_matrix_t* m)
 {
-  printf("Testas kopiado de densa matrico...");
-
-  ulab_dense_matrix_t *m, *n;
-  ulab_element_t val = 0;
-  ulab_element_t shape[2] = {4,4};
+  ulab_dense_matrix_t *n;
   int i;
-
-  m = ulab_dense_create(2, shape);
   n = ulab_dense_copy(m);
 
   assert(n);
-  for (i = 0; i < shape[0]*shape[1]; i++) {
+  for (i = 0; i < m->shape[0] * m->shape[1] * m->shape[2]; i++) {
     assert(m->data[i] == n->data[i]);
   }
-
-  printf("\t\[Bone]\n");
-
-  ulab_dense_free(m);
-  ulab_dense_free(n);
 }
 
 int main()
 {
-  test_ulab_dense_get();
-  test_ulab_dense_set();
-  test_checking_coords();
-  test_copy();
+  test_frame("Testas legadon de elemento de densa matrico.", test_ulab_dense_get);
+  test_frame("Testas skribadon de elemento de densa matrico.", test_ulab_dense_set);
+  test_frame("Testas foriron ekstre de densa  matrico.", test_checking_coords);
+  test_frame("Testas kopiadon de densa matrico.", test_copy);
 
   return 1;
 }
