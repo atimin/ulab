@@ -123,17 +123,17 @@ void test_copy()
   int i;
 
   m = ulab_dense_create(2, shape);
-  ulab_dense_copy(m, n);
+  n = ulab_dense_copy(m);
 
+  assert(n);
   for (i = 0; i < shape[0]*shape[1]; i++) {
     assert(m->data[i] == n->data[i]);
   }
 
-
   printf("\t\[Bone]\n");
 
   ulab_dense_free(m);
-
+  ulab_dense_free(n);
 }
 
 int main()

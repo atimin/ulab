@@ -81,8 +81,26 @@ ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t value, u
 }
 
 /* Kopii matricon */
-ulab_error_t ulab_dense_copy(ulab_dense_matrix_t* matrix, ulab_dense_matrix_t* copy) 
+ulab_dense_matrix_t* ulab_dense_copy(ulab_dense_matrix_t* matrix) 
 {
-  return ULAB_OK;
+  ulab_dim_t i, c;
+  ulab_dense_matrix_t *copy;
+
+  /* Eligu memoro por la kopio */
+  copy = ulab_dense_create(matrix->dim, matrix->shape);
+  if (copy == NULL)
+    return copy;
+  
+  /* Kalkulu kiomon de elementoj */
+  for (i = 0, c = 1; i < matrix->dim; i++) {
+    c *= matrix->shape[i];
+  }
+
+  /* Kopiu elementojn po unu */
+  for (i = 0; i < c; i++) {
+    copy->data[i] = matrix->data[i];
+  }
+  
+  return copy;
 }
 

@@ -32,7 +32,7 @@ typedef int ulab_element_t;
 
 /* Tipo de eraro. Eraro egalas 1, se kodo ruligxis sen problemoj */
 typedef enum {
-  ULAB_ERROR = 0,
+  ULAB_ERROR = -1,
   ULAB_OK
 } ulab_error_t;
 
@@ -75,5 +75,5 @@ extern ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t v
  * @param matrix estas referenco al matrico, kiu estas kopiata 
  * @parar copy estas kopio de la fonta matrico, vi devas pasigi nepravalorizatan referencon
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_dense_copy(ulab_dense_matrix_t* matrix, ulab_dense_matrix_t* copy);
+extern ulab_dense_matrix_t* ulab_dense_copy(ulab_dense_matrix_t* matrix);
 #endif
