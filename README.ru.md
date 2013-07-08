@@ -26,7 +26,7 @@ uLAB - это простая и маленькая библиотека для �
       count *= shape[i];
     }
 
-    m->data = malloc(count);
+    m->data = malloc(count * sizeof(ulab_element_t));
 
     return m;
   }

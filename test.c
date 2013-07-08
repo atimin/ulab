@@ -42,7 +42,7 @@ ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t dim, ulab_dim_t* shape)
     count *= shape[i];
   }
 
-  m->data = malloc(count);
+  m->data = malloc(count * sizeof(ulab_element_t));
 
   return m;
 }
@@ -112,12 +112,58 @@ void test_copy(ulab_dense_matrix_t* m)
   }
 }
 
+void test_adiciado(ulab_dense_matrix_t* m)
+{
+  ulab_dim_t coord1[3] = {1,1,1};
+  ulab_dim_t coord2[3] = {3,2,1};
+  ulab_dim_t coord3[3] = {2,1,3};
+  ulab_element_t v = 0;
+  ulab_dense_matrix_t* b = ulab_dense_create(3, m->shape);
+  
+  /* Testu per tri elementoj */
+  ulab_dense_set(m, 1, coord1);
+  ulab_dense_set(b, 3, coord1);
+
+
+  ulab_dense_set(m, -1, coord2);
+  ulab_dense_set(b, 0, coord2);
+
+  ulab_dense_set(m, 4, coord3);
+  ulab_dense_set(b, 8, coord3);
+
+  assert(ulab_dense_sum(m,b) == ULAB_OK);
+
+  ulab_dense_get(m, &v, coord1);
+  assert(v == 4);
+
+  ulab_dense_get(m, &v, coord2);
+  assert(v == -1);
+
+  ulab_dense_get(m, &v, coord3);
+  assert(v == 12);
+
+  ulab_dense_free(b);
+}
+
+void test_adiciado_checking(ulab_dense_matrix_t *m)
+{
+  ulab_dim_t wrong_shape[3] = {1,2,3};
+  
+  ulab_dense_matrix_t* b = ulab_dense_create(3, wrong_shape);
+
+  assert(ulab_dense_sum(m,b) == ULAB_ERROR);
+
+  ulab_dense_free(b);
+}
+
 int main()
 {
   test_frame("Testas legadon de elemento de densa matrico.", test_ulab_dense_get);
   test_frame("Testas skribadon de elemento de densa matrico.", test_ulab_dense_set);
   test_frame("Testas foriron ekstre de densa  matrico.", test_checking_coords);
   test_frame("Testas kopiadon de densa matrico.", test_copy);
+  test_frame("Testas adiciadon de densaj matricoj.", test_adiciado);
+  test_frame("Testas testo de gxustaj datumoj por adiciadon de densaj matricoj.", test_adiciado_checking);
 
   return 1;
 }

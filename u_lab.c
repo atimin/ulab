@@ -42,7 +42,7 @@ ulab_error_t ulab_search_element(ulab_dense_matrix_t* matrix, ulab_dim_t *index,
     strides[i] = strides[i+1] * matrix->shape[i+1];
   }
 
-  /* Serxado de elemento */
+  /* Sercxado de elemento */
   *index = 0;
   for(i=0; i < matrix->dim; i++) {
     *index += strides[i] * coord[i];
@@ -54,7 +54,7 @@ ulab_error_t ulab_search_element(ulab_dense_matrix_t* matrix, ulab_dim_t *index,
 /*======================================================================
  * Publikaj funkcioj 
  * ===================================================================*/
-/* Legi elementon de matrico */
+/* Legadi de matrica elemento */
 ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t *coord)
 {
   ulab_dim_t i;
@@ -67,7 +67,7 @@ ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, 
   return ULAB_OK;
 }
 
-/* Skribi en elementon de matrico  */
+/* Skribado de matrica elemento */
 ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t value, ulab_dim_t *coord)
 {
   ulab_dim_t i;
@@ -80,7 +80,7 @@ ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t value, u
   return ULAB_OK;
 }
 
-/* Kopii matricon */
+/* Kopiado de matrico */
 ulab_dense_matrix_t* ulab_dense_copy(ulab_dense_matrix_t* matrix) 
 {
   ulab_dim_t i, c;
@@ -104,3 +104,26 @@ ulab_dense_matrix_t* ulab_dense_copy(ulab_dense_matrix_t* matrix)
   return copy;
 }
 
+/* Adiciado de du matricoj a + b kaj konservado de rezulto al a */
+ulab_error_t ulab_dense_sum(ulab_dense_matrix_t* a, ulab_dense_matrix_t* b)
+{
+  ulab_dim_t i, c;
+
+
+  /* Kalku kiomon de elementojn */
+  c = 1;
+  for (i = 0; i < a->dim; i++) {
+
+    /* Testu dimensiojn de matricoj. Ili devas esti egalaj */
+    if (a->shape[i] != b->shape[i]) return ULAB_ERROR;
+
+    c *= a->shape[i];
+  }
+
+  /* Adiciu elementojn de matricoj */
+  for (i = 0; i < c; i++) {
+    a->data[i] += b->data[i];
+  }
+
+  return ULAB_OK;
+}

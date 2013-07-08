@@ -25,7 +25,7 @@ Por uzi la bibliotekon en via programo vi devas programi du funkciojn: `ulab_den
       count *= shape[i];
     }
 
-    m->data = malloc(count);
+    m->data = malloc(count * sizeof(ulab_element_t));
 
     return m;
   }

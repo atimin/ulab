@@ -30,7 +30,7 @@ typedef unsigned int ulab_dim_t;
  * Vi povas same sxangxi gxin kiel necese */
 typedef int ulab_element_t;
 
-/* Tipo de eraro. Eraro egalas 1, se kodo ruligxis sen problemoj */
+/* Tipo de eraro. Eraro egalas 0, se kodo ruligxis sen problemoj */
 typedef enum {
   ULAB_ERROR = -1,
   ULAB_OK
@@ -52,28 +52,34 @@ typedef struct
  * @return matrix estas referenco al matrico, kiu estas kreita */
 extern ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t dim, ulab_dim_t* shape);
 
-/* Detrui matricon 
+/* Detruado de matrico
  * ATENDU: cxi funkcion uzanto de biblioteko devas programi mem
  * @param matrix estas referenco al matrico, kiu estas pravalorizata */
 extern void ulab_dense_free(ulab_dense_matrix_t *m);
 
-/* Legi elementon de matrico 
+/* Legado de matrica elemento
  * @param matrix estas referenco al matrico
  * @param value estas referenco al variablo, kiu konservas rezulton 
  * @param coord estas referenco al tabulo da koordinatoj de elementoj, kies valoron estas prenata 
  * @return kodo de eraro @see ulab_error_t*/
 extern ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t *coord);
 
-/* Skribi en elementon de matrico 
+/* Skribado de elemento de matrico 
  * @param matrix estas referenco al matrico
  * @param value estas referenco al variablo, kiun oni skribas 
  * @param coord estas referenco al tabulo da koordinatoj de elementoj, kies valoron estas prenata 
  * @return kodo de eraro @see ulab_error_t*/
 extern ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t value, ulab_dim_t *coord);
 
-/* Kopii matricon 
+/* Kopiado de matrico
  * @param matrix estas referenco al matrico, kiu estas kopiata 
  * @parar copy estas kopio de la fonta matrico, vi devas pasigi nepravalorizatan referencon
- * @return kodo de eraro @see ulab_error_t*/
+ * @return kopio aŭ 0, se eraro estas. */
 extern ulab_dense_matrix_t* ulab_dense_copy(ulab_dense_matrix_t* matrix);
+
+/* Adiciado de du matricoj a + b kaj konservado de rezulto al a
+ * @param a unua matrica, gxi konservas rezulton de adiciado
+ * @param b dua matrica
+ * @return kodo de eraro @see ulab_error_t*/
+extern ulab_error_t ulab_dense_sum(ulab_dense_matrix_t* a, ulab_dense_matrix_t* b);
 #endif
