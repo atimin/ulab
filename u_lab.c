@@ -105,7 +105,7 @@ ulab_dense_matrix_t* ulab_dense_copy(ulab_dense_matrix_t* matrix)
 }
 
 /* Adiciado de du matricoj a + b kaj konservado de rezulto al a */
-ulab_error_t ulab_dense_sum(ulab_dense_matrix_t* a, ulab_dense_matrix_t* b)
+ulab_error_t ulab_dense_add(ulab_dense_matrix_t* a, ulab_dense_matrix_t* b)
 {
   ulab_dim_t i, c;
 

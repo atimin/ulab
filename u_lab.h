@@ -81,5 +81,5 @@ extern ulab_dense_matrix_t* ulab_dense_copy(ulab_dense_matrix_t* matrix);
  * @param a unua matrica, gxi konservas rezulton de adiciado
  * @param b dua matrica
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_dense_sum(ulab_dense_matrix_t* a, ulab_dense_matrix_t* b);
+extern ulab_error_t ulab_dense_add(ulab_dense_matrix_t* a, ulab_dense_matrix_t* b);
 #endif

@@ -131,7 +131,7 @@ void test_adiciado(ulab_dense_matrix_t* m)
   ulab_dense_set(m, 4, coord3);
   ulab_dense_set(b, 8, coord3);
 
-  assert(ulab_dense_sum(m,b) == ULAB_OK);
+  assert(ulab_dense_add(m,b) == ULAB_OK);
 
   ulab_dense_get(m, &v, coord1);
   assert(v == 4);
@@ -151,7 +151,7 @@ void test_adiciado_checking(ulab_dense_matrix_t *m)
   
   ulab_dense_matrix_t* b = ulab_dense_create(3, wrong_shape);
 
-  assert(ulab_dense_sum(m,b) == ULAB_ERROR);
+  assert(ulab_dense_add(m,b) == ULAB_ERROR);
 
   ulab_dense_free(b);
 }
