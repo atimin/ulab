@@ -60,7 +60,7 @@ void test_frame(const char *msg, test_func f)
   printf(msg);
   
   ulab_dense_matrix_t *m;
-  ulab_element_t shape[3] = {4,5,6};
+  ulab_dim_t shape[3] = {4,5,6};
 
 
   m = ulab_dense_create(3, shape);
