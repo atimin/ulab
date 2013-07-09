@@ -72,6 +72,19 @@ void test_frame(const char *msg, test_func f)
 }
 /*=============================================================================*/
 
+void test_creating_zero(ulab_dense_matrix_t *m)
+{
+  ulab_dim_t i;
+  ulab_dim_t shape[3] = {4,5,6};
+
+  ulab_dense_matrix_t *a = ulab_dense_create_zero(3, shape);
+
+  for (i = 0; i < 120; i++) {
+    assert(a->data[i] == 0);
+  }
+
+  ulab_dense_free(a);
+}
 void test_ulab_dense_get(ulab_dense_matrix_t* m)
 {
   ulab_element_t val = 0;
@@ -185,6 +198,7 @@ void test_scalar_multiplication(ulab_dense_matrix_t *m)
 
 int main()
 {
+  test_frame("Testas kreado de nula densa matrixo.", test_creating_zero);
   test_frame("Testas legadon de elemento de densa matrico.", test_ulab_dense_get);
   test_frame("Testas skribadon de elemento de densa matrico.", test_ulab_dense_set);
   test_frame("Testas foriron ekstre de densa  matrico.", test_checking_coords);

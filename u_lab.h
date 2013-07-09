@@ -44,11 +44,12 @@ typedef struct
   ulab_element_t  *data;    /* elementoj de matrico */
 } ulab_dense_matrix_t;
 
-/* Kreado de matrico dense matrico 
+/*==================================================================*/
+
+/* Kreado de densa matrico 
  * ATENDU: cxi funkcion uzanto de biblioteko devas programi mem
  * @param dim estas dimension de matrico 
  * @param shape estas referenco al tabelo, kiu prezentos formo de matrico 
- * @param data estas tableto de elementoj de matrico
  * @return matrix estas referenco al matrico, kiu estas kreita */
 extern ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t dim, ulab_dim_t* shape);
 
@@ -56,6 +57,14 @@ extern ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t dim, ulab_dim_t* shape)
  * ATENDU: cxi funkcion uzanto de biblioteko devas programi mem
  * @param matrix estas referenco al matrico, kiu estas pravalorizata */
 extern void ulab_dense_free(ulab_dense_matrix_t *m);
+
+
+/* Kreado de nula densa matrico 
+ * @param dim estas dimension de matrico 
+ * @param shape estas referenco al tabelo, kiu prezentos formo de matrico 
+ * @return matrix estas referenco al matrico, kiu estas kreita */
+extern ulab_dense_matrix_t* ulab_dense_create_zero(ulab_dim_t dim, ulab_dim_t* shape);
+/*==================================================================*/
 
 /* Legado de matrica elemento
  * @param matrix estas referenco al matrico

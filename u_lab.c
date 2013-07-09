@@ -51,9 +51,36 @@ ulab_error_t ulab_search_element(ulab_dense_matrix_t* matrix, ulab_dim_t *index,
   return ULAB_OK;
 }
 
+/* Kalkulado de kiomo de elementojn */
+ulab_dim_t ulab_count_elements(ulab_dense_matrix_t *matrix)
+{
+  ulab_dim_t i, c;
+
+  c = 1;
+  for (i = 0; i < matrix->dim; i++) {
+    c *= matrix->shape[i];
+  }
+
+  return c;
+}
 /*======================================================================
  * Publikaj funkcioj 
  * ===================================================================*/
+/* Kreado de nula densa matrico */
+ulab_dense_matrix_t* ulab_dense_create_zero(ulab_dim_t dim, ulab_dim_t* shape)
+{ 
+  ulab_dim_t i, c;
+
+  ulab_dense_matrix_t *matrix = ulab_dense_create(dim, shape);
+
+  c = ulab_count_elements(matrix);
+  for (i = 0; i < c; i++) {
+    matrix->data[i] = 0;
+  }
+
+  return matrix;
+}
+
 /* Legadi de matrica elemento */
 ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t *coord)
 {
@@ -132,12 +159,7 @@ ulab_error_t ulab_dense_smul(ulab_dense_matrix_t* matrix, ulab_element_t k)
 {
   ulab_dim_t i, c;
 
-  /* Kalku kiomon de elementojn */
-  c = 1;
-  for (i = 0; i < matrix->dim; i++) {
-    c *= matrix->shape[i];
-  }
-
+  c = ulab_count_elements(matrix);
   for (i = 0; i < c; i++) {
     matrix->data[i] *= k;
   }
