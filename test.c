@@ -156,6 +156,33 @@ void test_adiciado_checking(ulab_dense_matrix_t *m)
   ulab_dense_free(b);
 }
 
+void test_scalar_multiplication(ulab_dense_matrix_t *m)
+{
+  ulab_dim_t coord1[3] = {1,2,3};
+  ulab_dim_t coord2[3] = {1,2,1};
+  ulab_dim_t coord3[3] = {2,1,2};
+  ulab_element_t v = 0;
+  ulab_element_t k = 2;
+  ulab_dense_matrix_t* b = ulab_dense_create(3, m->shape);
+  
+  /* Testu per tri elementoj */
+  ulab_dense_set(m, 1, coord1);
+  ulab_dense_set(m, -1, coord2);
+  ulab_dense_set(m, 4, coord3);
+
+  assert(ulab_dense_smul(m, k) == ULAB_OK);
+
+  ulab_dense_get(m, &v, coord1);
+  assert(v == 2);
+
+  ulab_dense_get(m, &v, coord2);
+  assert(v == -2);
+
+  ulab_dense_get(m, &v, coord3);
+  assert(v == 8);
+
+}
+
 int main()
 {
   test_frame("Testas legadon de elemento de densa matrico.", test_ulab_dense_get);
@@ -164,6 +191,6 @@ int main()
   test_frame("Testas kopiadon de densa matrico.", test_copy);
   test_frame("Testas adiciadon de densaj matricoj.", test_adiciado);
   test_frame("Testas testo de gxustaj datumoj por adiciadon de densaj matricoj.", test_adiciado_checking);
-
+  test_frame("Testas skalaran multiplikon de densaj matricoj.", test_scalar_multiplication);
   return 1;
 }

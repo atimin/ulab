@@ -104,7 +104,7 @@ ulab_dense_matrix_t* ulab_dense_copy(ulab_dense_matrix_t* matrix)
   return copy;
 }
 
-/* Adiciado de du matricoj a + b kaj konservado de rezulto al a */
+/* Adicio de du matricoj a + b kaj konservado de rezulto al a */
 ulab_error_t ulab_dense_add(ulab_dense_matrix_t* a, ulab_dense_matrix_t* b)
 {
   ulab_dim_t i, c;
@@ -113,7 +113,6 @@ ulab_error_t ulab_dense_add(ulab_dense_matrix_t* a, ulab_dense_matrix_t* b)
   /* Kalku kiomon de elementojn */
   c = 1;
   for (i = 0; i < a->dim; i++) {
-
     /* Testu dimensiojn de matricoj. Ili devas esti egalaj */
     if (a->shape[i] != b->shape[i]) return ULAB_ERROR;
 
@@ -123,6 +122,24 @@ ulab_error_t ulab_dense_add(ulab_dense_matrix_t* a, ulab_dense_matrix_t* b)
   /* Adiciu elementojn de matricoj */
   for (i = 0; i < c; i++) {
     a->data[i] += b->data[i];
+  }
+
+  return ULAB_OK;
+}
+
+/* Skalara multipliko de matrico */
+ulab_error_t ulab_dense_smul(ulab_dense_matrix_t* matrix, ulab_element_t k)
+{
+  ulab_dim_t i, c;
+
+  /* Kalku kiomon de elementojn */
+  c = 1;
+  for (i = 0; i < matrix->dim; i++) {
+    c *= matrix->shape[i];
+  }
+
+  for (i = 0; i < c; i++) {
+    matrix->data[i] *= k;
   }
 
   return ULAB_OK;

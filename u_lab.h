@@ -77,9 +77,15 @@ extern ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t v
  * @return kopio aŭ 0, se eraro estas. */
 extern ulab_dense_matrix_t* ulab_dense_copy(ulab_dense_matrix_t* matrix);
 
-/* Adiciado de du matricoj a + b kaj konservado de rezulto al a
+/* Adicio de du matricoj a + b kaj konservado de rezulto al a
  * @param a unua matrica, gxi konservas rezulton de adiciado
  * @param b dua matrica
  * @return kodo de eraro @see ulab_error_t*/
 extern ulab_error_t ulab_dense_add(ulab_dense_matrix_t* a, ulab_dense_matrix_t* b);
+
+/* Skalara multipliko de matrico 
+ * @param matrix matrica, kiu estas multiplikata kaj kiu konservas rezulton
+ * @param k skalara faktoro 
+ * @return kodo de eraro @see ulab_error_t*/
+extern ulab_error_t ulab_dense_smul(ulab_dense_matrix_t* matrix, ulab_element_t k);
 #endif
