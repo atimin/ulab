@@ -25,33 +25,15 @@ LA PROGRAMARO AUX GXIA UZADO. */
 #include <assert.h>
 
 /*==============================================================================*/
-ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t dim, ulab_dim_t* shape)
+
+void *ulab_malloc(size_t size)
 {
-  ulab_dense_matrix_t *m;
-  int i, count;
-
-  m = malloc(sizeof(ulab_dense_matrix_t));
-
-  m->dim = dim;
-
-  m->shape = malloc(sizeof(ulab_dim_t) * dim);
-
-  count = 1;
-  for (i = 0; i < dim; i++) {
-    m->shape[i] = shape[i];
-    count *= shape[i];
-  }
-
-  m->data = malloc(count * sizeof(ulab_element_t));
-
-  return m;
+  return malloc(size);
 }
 
-void ulab_dense_free(ulab_dense_matrix_t *m)
+void ulab_free(void *ptr)
 {
-  free(m->data);
-  free(m->shape);
-  free(m);
+  free(ptr);
 }
 
 typedef void (*test_func)(ulab_dense_matrix_t*);

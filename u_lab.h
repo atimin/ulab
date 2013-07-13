@@ -22,6 +22,8 @@ LA PROGRAMARO AUX GXIA UZADO. */
 #ifndef _ULAB_
 #define _ULAB_
 
+#include <stdio.h>
+
 /* Tipo, kiun uzas por difino de dimensioj 
  * Vi povas sxangxi gxin por via tasko */
 typedef unsigned int ulab_dim_t;
@@ -41,20 +43,26 @@ typedef struct
 {
   ulab_dim_t      dim;      /* dimension de matrico */ 
   ulab_dim_t      *shape;   /* formo de matrico - multo da linioj, kolumnoj k.t.p */ 
+  ulab_dim_t      count;    /* kiomo de elementoj */
+  ulab_dim_t      *strides; /* pasxoj de matrico por sercxado de elementoj */
   ulab_element_t  *data;    /* elementoj de matrico */
 } ulab_dense_matrix_t;
 
-/*==================================================================*/
+/*================================================================== */
+
+/* ATENDU: Uzanto devas programi la funkcion mem  */
+extern void* ulab_malloc(size_t size);
+
+/* ATENDU: Uzanto devas programi la funkcion mem  */
+extern void ulab_free(void *ptr);
 
 /* Kreado de densa matrico 
- * ATENDU: cxi funkcion uzanto de biblioteko devas programi mem
  * @param dim estas dimension de matrico 
  * @param shape estas referenco al tabelo, kiu prezentos formo de matrico 
  * @return matrix estas referenco al matrico, kiu estas kreita */
 extern ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t dim, ulab_dim_t* shape);
 
 /* Detruado de matrico
- * ATENDU: cxi funkcion uzanto de biblioteko devas programi mem
  * @param matrix estas referenco al matrico, kiu estas pravalorizata */
 extern void ulab_dense_free(ulab_dense_matrix_t *m);
 
@@ -87,14 +95,20 @@ extern ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t v
 extern ulab_dense_matrix_t* ulab_dense_copy(ulab_dense_matrix_t* matrix);
 
 /* Adicio de du matricoj a + b kaj konservado de rezulto al a
- * @param a unua matrica, gxi konservas rezulton de adiciado
+ * @param a unua matrica, gxi konservas rezulton de adicio
  * @param b dua matrica
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_dense_add(ulab_dense_matrix_t* a, ulab_dense_matrix_t* b);
+extern ulab_error_t ulab_dense_add(ulab_dense_matrix_t* matrix_a, ulab_dense_matrix_t* matrix_b);
 
 /* Skalara multipliko de matrico 
  * @param matrix matrica, kiu estas multiplikata kaj kiu konservas rezulton
  * @param k skalara faktoro 
  * @return kodo de eraro @see ulab_error_t*/
 extern ulab_error_t ulab_dense_smul(ulab_dense_matrix_t* matrix, ulab_element_t k);
+
+/* Multipliko de du matricoj a * b kaj konservado de rezulto al a
+ * @param a unua matrica, gxi konservas rezulton de multipliko
+ * @param b dua matrica
+ * @return kodo de eraro @see ulab_error_t*/
+extern ulab_error_t ulab_dense_mmul(ulab_dense_matrix_t* matrix_a, ulab_dense_matrix_t* matrix_b);
 #endif
