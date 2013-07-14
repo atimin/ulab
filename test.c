@@ -42,10 +42,9 @@ void test_frame(const char *msg, test_func f)
   printf(msg);
   
   ulab_dense_matrix_t *m;
-  ulab_dim_t shape[3] = {4,5,6};
 
 
-  m = ulab_dense_create(3, shape);
+  m = ulab_dense_create(4,5);
 
   f(m);
 
@@ -57,9 +56,8 @@ void test_frame(const char *msg, test_func f)
 void test_creating_zero(ulab_dense_matrix_t *m)
 {
   ulab_dim_t i;
-  ulab_dim_t shape[3] = {4,5,6};
 
-  ulab_dense_matrix_t *a = ulab_dense_create_zero(3, shape);
+  ulab_dense_matrix_t *a = ulab_dense_create_zero(12,10);
 
   for (i = 0; i < 120; i++) {
     assert(a->data[i] == 0);
@@ -70,29 +68,26 @@ void test_creating_zero(ulab_dense_matrix_t *m)
 void test_ulab_dense_get(ulab_dense_matrix_t* m)
 {
   ulab_element_t val = 0;
-  ulab_dim_t coord[3] = {3,3,3};
-  m->data[111] = 99;
-  ulab_dense_get(m, &val, coord);
+  m->data[6] = 99;
+  ulab_dense_get(m, &val, 1,1);
 
-  assert(val == m->data[111]);
+  assert(val == m->data[6]);
 }
 
 void test_ulab_dense_set(ulab_dense_matrix_t* m)
 {
   ulab_element_t val = 66;
-  ulab_dim_t coord[3] = {2,1,4};
-  ulab_dense_set(m, val, coord);
+  ulab_dense_set(m, val, 3,3);
 
-  assert(val == m->data[70]);
+  assert(val == m->data[18]);
 }
 
 void test_checking_coords(ulab_dense_matrix_t* m)
 {
   ulab_element_t val = 0;
-  ulab_dim_t coord[3] = {4,5,6};
 
-  assert(ULAB_ERROR == ulab_dense_set(m, val, coord));
-  assert(ULAB_ERROR == ulab_dense_get(m, &val, coord));
+  assert(ULAB_ERROR == ulab_dense_set(m, val, 5, 4));
+  assert(ULAB_ERROR == ulab_dense_get(m, &val, 4,6));
 }
 
 void test_copy(ulab_dense_matrix_t* m)
@@ -102,39 +97,36 @@ void test_copy(ulab_dense_matrix_t* m)
   n = ulab_dense_copy(m);
 
   assert(n);
-  for (i = 0; i < m->shape[0] * m->shape[1] * m->shape[2]; i++) {
+  for (i = 0; i < m->count; i++) {
     assert(m->data[i] == n->data[i]);
   }
 }
 
 void test_adiciado(ulab_dense_matrix_t* m)
 {
-  ulab_dim_t coord1[3] = {1,1,1};
-  ulab_dim_t coord2[3] = {3,2,1};
-  ulab_dim_t coord3[3] = {2,1,3};
   ulab_element_t v = 0;
-  ulab_dense_matrix_t* b = ulab_dense_create(3, m->shape);
+  ulab_dense_matrix_t* b = ulab_dense_create(4,5);
   
   /* Testu per tri elementoj */
-  ulab_dense_set(m, 1, coord1);
-  ulab_dense_set(b, 3, coord1);
+  ulab_dense_set(m, 1, 1, 2);
+  ulab_dense_set(b, 3, 1, 2);
 
 
-  ulab_dense_set(m, -1, coord2);
-  ulab_dense_set(b, 0, coord2);
+  ulab_dense_set(m, -1, 3, 4);
+  ulab_dense_set(b, 0, 3, 4);
 
-  ulab_dense_set(m, 4, coord3);
-  ulab_dense_set(b, 8, coord3);
+  ulab_dense_set(m, 4, 2, 2);
+  ulab_dense_set(b, 8, 2, 2);
 
   assert(ulab_dense_add(m,b) == ULAB_OK);
 
-  ulab_dense_get(m, &v, coord1);
+  ulab_dense_get(m, &v, 1, 2);
   assert(v == 4);
 
-  ulab_dense_get(m, &v, coord2);
+  ulab_dense_get(m, &v, 3, 4);
   assert(v == -1);
 
-  ulab_dense_get(m, &v, coord3);
+  ulab_dense_get(m, &v, 2, 2);
   assert(v == 12);
 
   ulab_dense_free(b);
@@ -142,9 +134,8 @@ void test_adiciado(ulab_dense_matrix_t* m)
 
 void test_adiciado_checking(ulab_dense_matrix_t *m)
 {
-  ulab_dim_t wrong_shape[3] = {1,2,3};
   
-  ulab_dense_matrix_t* b = ulab_dense_create(3, wrong_shape);
+  ulab_dense_matrix_t* b = ulab_dense_create(3, 2);
 
   assert(ulab_dense_add(m,b) == ULAB_ERROR);
 
@@ -153,29 +144,24 @@ void test_adiciado_checking(ulab_dense_matrix_t *m)
 
 void test_scalar_multiplication(ulab_dense_matrix_t *m)
 {
-  ulab_dim_t coord1[3] = {1,2,3};
-  ulab_dim_t coord2[3] = {1,2,1};
-  ulab_dim_t coord3[3] = {2,1,2};
   ulab_element_t v = 0;
   ulab_element_t k = 2;
-  ulab_dense_matrix_t* b = ulab_dense_create(3, m->shape);
   
   /* Testu per tri elementoj */
-  ulab_dense_set(m, 1, coord1);
-  ulab_dense_set(m, -1, coord2);
-  ulab_dense_set(m, 4, coord3);
+  ulab_dense_set(m, 1, 1, 2);
+  ulab_dense_set(m, -1, 3, 4);
+  ulab_dense_set(m, 4, 2, 2);
 
   assert(ulab_dense_smul(m, k) == ULAB_OK);
 
-  ulab_dense_get(m, &v, coord1);
+  ulab_dense_get(m, &v, 1, 2);
   assert(v == 2);
 
-  ulab_dense_get(m, &v, coord2);
+  ulab_dense_get(m, &v, 3, 4);
   assert(v == -2);
 
-  ulab_dense_get(m, &v, coord3);
+  ulab_dense_get(m, &v, 2, 2);
   assert(v == 8);
-
 }
 
 int main()
@@ -188,5 +174,6 @@ int main()
   test_frame("Testas adiciadon de densaj matricoj.", test_adiciado);
   test_frame("Testas testo de gxustaj datumoj por adiciadon de densaj matricoj.", test_adiciado_checking);
   test_frame("Testas skalaran multiplikon de densaj matricoj.", test_scalar_multiplication);
+  /* test_frame("Testas matrican multiplikon de densaj matricoj.", test_matrico_multiplication); */
   return 1;
 }

@@ -1,7 +1,7 @@
 Mikro-Lineara Algebra biblioteko
 ==========================================
 
-uLAB estas simpla kaj eta biblioteko de agoj kun N-dimensiaj matricoj skribata per C, kiu devas funkcii cxie ecx por 8-bitaj mikroreguliloj. 
+uLAB estas simpla kaj eta biblioteko de agoj kun 2-dimensiaj matricoj skribata per C, kiu devas funkcii cxie ecx por 8-bitaj mikroreguliloj. 
 
 Uzado
 -------------------------------------------

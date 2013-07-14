@@ -25,54 +25,21 @@ LA PROGRAMARO AUX GXIA UZADO. */
  * Privataj funkcioj 
  * ===================================================================*/
 
-/* Sercxado de indekso de elemento per koordinatoj */
-ulab_error_t ulab_search_element(ulab_dense_matrix_t* matrix, ulab_dim_t *index, ulab_dim_t *coord)
-{
-  int i;
-
-  /* Testo por eliro de koordinatoj ekster dimensio de matrico. */
-  for (i = 0; i < matrix->dim; i++) {
-    if (coord[i] >= matrix->shape[i]) return ULAB_ERROR;
-  }
-
-  /* Sercxado de elemento */
-  *index = 0;
-  for(i=0; i < matrix->dim; i++) {
-    *index += matrix->strides[i] * coord[i];
-  }
-
-  return ULAB_OK;
-}
-
 /*======================================================================
  * Publikaj funkcioj 
  * ===================================================================*/
 
 /* Kreado de densa matrico  */
-ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t dim, ulab_dim_t* shape)
+ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t rows, ulab_dim_t columns)
 {
   ulab_dense_matrix_t *m;
   int i;
 
   m = ulab_malloc(sizeof(ulab_dense_matrix_t));
 
-  m->dim = dim;
-
-  m->shape = ulab_malloc(sizeof(ulab_dim_t) * dim);
-  m->strides = ulab_malloc(sizeof(ulab_dim_t) * dim);
-
-  m->count = 1;
-  for (i = 0; i < dim; i++) {
-    m->shape[i] = shape[i];
-    m->count *= shape[i];      /* Kalkulu kiomon de elementoj */
-  }
-
-  /* Kalkulu pasxojn de matrico */
-  m->strides[m->dim - 1] = 1;        
-  for (i = m->dim - 2; i >= 0; i--) {
-    m->strides[i] = m->strides[i+1] * m->shape[i+1];
-  }
-
+  m->rows = rows;
+  m->columns = columns;
+  m->count = rows * columns;
   m->data = ulab_malloc(m->count * sizeof(ulab_element_t));
 
   return m;
@@ -82,18 +49,18 @@ ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t dim, ulab_dim_t* shape)
 void ulab_dense_free(ulab_dense_matrix_t *m)
 {
   ulab_free(m->data);
-  ulab_free(m->shape);
   ulab_free(m);
 }
 
 /* Kreado de nula densa matrico */
-ulab_dense_matrix_t* ulab_dense_create_zero(ulab_dim_t dim, ulab_dim_t* shape)
+ulab_dense_matrix_t* ulab_dense_create_zero(ulab_dim_t rows, ulab_dim_t columns)
 { 
-  ulab_dim_t i, c;
+  ulab_dim_t i,c;
 
-  ulab_dense_matrix_t *matrix = ulab_dense_create(dim, shape);
+  ulab_dense_matrix_t *matrix = ulab_dense_create(rows, columns);
 
-  for (i = 0; i < matrix->count; i++) {
+  c = rows * columns;
+  for (i = 0; i < c; i++) {
     matrix->data[i] = 0;
   }
 
@@ -101,27 +68,25 @@ ulab_dense_matrix_t* ulab_dense_create_zero(ulab_dim_t dim, ulab_dim_t* shape)
 }
 
 /* Legadi de matrica elemento */
-ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t *coord)
+ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t i, ulab_dim_t j)
 {
-  ulab_dim_t i;
- 
-  if (ulab_search_element(matrix, &i, coord) == ULAB_ERROR) 
-    return ULAB_ERROR;
+  ulab_dim_t index = i*matrix->columns + j;
 
-  *value = matrix->data[i];
+  if (index >= matrix->count) return ULAB_ERROR;
+
+  *value = matrix->data[index];
 
   return ULAB_OK;
 }
 
 /* Skribado de matrica elemento */
-ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t value, ulab_dim_t *coord)
+ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t value, ulab_dim_t i, ulab_dim_t j)
 {
-  ulab_dim_t i;
- 
-  if (ulab_search_element(matrix, &i, coord) == ULAB_ERROR) 
-    return ULAB_ERROR;
+  ulab_dim_t index = i*matrix->columns + j;
 
-  matrix->data[i] = value;
+  if (index >= matrix->count) return ULAB_ERROR;
+ 
+  matrix->data[index] = value;
 
   return ULAB_OK;
 }
@@ -133,7 +98,7 @@ ulab_dense_matrix_t* ulab_dense_copy(ulab_dense_matrix_t* matrix)
   ulab_dense_matrix_t *copy;
 
   /* Eligu memoro por la kopio */
-  copy = ulab_dense_create(matrix->dim, matrix->shape);
+  copy = ulab_dense_create(matrix->rows, matrix->columns);
   if (copy == NULL)
     return copy;
   
@@ -148,19 +113,14 @@ ulab_dense_matrix_t* ulab_dense_copy(ulab_dense_matrix_t* matrix)
 /* Adicio de du matricoj a + b kaj konservado de rezulto al a */
 ulab_error_t ulab_dense_add(ulab_dense_matrix_t* matrix_a, ulab_dense_matrix_t* matrix_b)
 {
-  ulab_dim_t i, c;
+  ulab_dim_t i;
 
-  /* Kalku kiomon de elementojn */
-  c = 1;
-  for (i = 0; i < matrix_a->dim; i++) {
-    /* Testu dimensiojn de matricoj. Ili devas esti egalaj */
-    if (matrix_a->shape[i] != matrix_b->shape[i]) return ULAB_ERROR;
-
-    c *= matrix_a->shape[i];
-  }
+  /* Testu dimensiojn de matricoj. Ili devas esti egalaj */
+  if (matrix_a->rows != matrix_b->rows 
+      || matrix_a->columns != matrix_b->columns) return ULAB_ERROR;
 
   /* Adiciu elementojn de matricoj */
-  for (i = 0; i < c; i++) {
+  for (i = 0; i < matrix_a->count; i++) {
     matrix_a->data[i] += matrix_b->data[i];
   }
 

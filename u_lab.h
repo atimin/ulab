@@ -41,10 +41,9 @@ typedef enum {
 /* La gxenerala strukturo de densa matrico */
 typedef struct 
 {
-  ulab_dim_t      dim;      /* dimension de matrico */ 
-  ulab_dim_t      *shape;   /* formo de matrico - multo da linioj, kolumnoj k.t.p */ 
-  ulab_dim_t      count;    /* kiomo de elementoj */
-  ulab_dim_t      *strides; /* pasxoj de matrico por sercxado de elementoj */
+  ulab_dim_t      rows;
+  ulab_dim_t      columns;
+  ulab_dim_t      count;
   ulab_element_t  *data;    /* elementoj de matrico */
 } ulab_dense_matrix_t;
 
@@ -57,36 +56,33 @@ extern void* ulab_malloc(size_t size);
 extern void ulab_free(void *ptr);
 
 /* Kreado de densa matrico 
- * @param dim estas dimension de matrico 
- * @param shape estas referenco al tabelo, kiu prezentos formo de matrico 
+ * @param rows estas kiomo de vicoj
+ * @param columns estas kiomo de kolumnoj
  * @return matrix estas referenco al matrico, kiu estas kreita */
-extern ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t dim, ulab_dim_t* shape);
-
-/* Detruado de matrico
- * @param matrix estas referenco al matrico, kiu estas pravalorizata */
-extern void ulab_dense_free(ulab_dense_matrix_t *m);
-
+extern ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t rows, ulab_dim_t columns);
 
 /* Kreado de nula densa matrico 
- * @param dim estas dimension de matrico 
- * @param shape estas referenco al tabelo, kiu prezentos formo de matrico 
+ * @param rows estas kiomo de vicoj
+ * @param columns estas kiomo de kolumnoj
  * @return matrix estas referenco al matrico, kiu estas kreita */
-extern ulab_dense_matrix_t* ulab_dense_create_zero(ulab_dim_t dim, ulab_dim_t* shape);
+extern ulab_dense_matrix_t* ulab_dense_create_zero(ulab_dim_t rows, ulab_dim_t columns);
 /*==================================================================*/
 
 /* Legado de matrica elemento
  * @param matrix estas referenco al matrico
  * @param value estas referenco al variablo, kiu konservas rezulton 
- * @param coord estas referenco al tabulo da koordinatoj de elementoj, kies valoron estas prenata 
+ * @param i estas indekso de vico 
+ * @param j estas indekso de kolumno
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t *coord);
+extern ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t i, ulab_dim_t j);
 
 /* Skribado de elemento de matrico 
  * @param matrix estas referenco al matrico
  * @param value estas referenco al variablo, kiun oni skribas 
- * @param coord estas referenco al tabulo da koordinatoj de elementoj, kies valoron estas prenata 
+ * @param i estas indekso de vico 
+ * @param j estas indekso de kolumno
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t value, ulab_dim_t *coord);
+extern ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t value, ulab_dim_t i, ulab_dim_t j);
 
 /* Kopiado de matrico
  * @param matrix estas referenco al matrico, kiu estas kopiata 
