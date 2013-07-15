@@ -45,7 +45,7 @@ typedef struct
   ulab_dim_t      columns;
   ulab_dim_t      count;
   ulab_element_t  *data;    /* elementoj de matrico */
-} ulab_dense_matrix_t;
+} ulab_matrix_t;
 
 /*================================================================== */
 
@@ -55,17 +55,20 @@ extern void* ulab_malloc(size_t size);
 /* ATENDU: Uzanto devas programi la funkcion mem  */
 extern void ulab_free(void *ptr);
 
-/* Kreado de densa matrico 
+/* Kreado de matrico 
  * @param rows estas kiomo de vicoj
  * @param columns estas kiomo de kolumnoj
  * @return matrix estas referenco al matrico, kiu estas kreita */
-extern ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t rows, ulab_dim_t columns);
+extern ulab_matrix_t* ulab_matrix_new(ulab_dim_t rows, ulab_dim_t columns);
 
-/* Kreado de nula densa matrico 
+/* Kreado de nula matrico 
  * @param rows estas kiomo de vicoj
  * @param columns estas kiomo de kolumnoj
  * @return matrix estas referenco al matrico, kiu estas kreita */
-extern ulab_dense_matrix_t* ulab_dense_create_zero(ulab_dim_t rows, ulab_dim_t columns);
+extern ulab_matrix_t* ulab_matrix_zero(ulab_dim_t rows, ulab_dim_t columns);
+
+/* Detruado de matrico */
+extern void ulab_matrix_destroy(ulab_matrix_t *m);
 /*==================================================================*/
 
 /* Legado de matrica elemento
@@ -74,7 +77,7 @@ extern ulab_dense_matrix_t* ulab_dense_create_zero(ulab_dim_t rows, ulab_dim_t c
  * @param i estas indekso de vico 
  * @param j estas indekso de kolumno
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t i, ulab_dim_t j);
+extern ulab_error_t ulab_matrix_get_el(ulab_matrix_t* matrix, ulab_element_t *value, ulab_dim_t i, ulab_dim_t j);
 
 /* Skribado de elemento de matrico 
  * @param matrix estas referenco al matrico
@@ -82,29 +85,29 @@ extern ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *
  * @param i estas indekso de vico 
  * @param j estas indekso de kolumno
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t value, ulab_dim_t i, ulab_dim_t j);
+extern ulab_error_t ulab_matrix_set_el(ulab_matrix_t* matrix, ulab_element_t value, ulab_dim_t i, ulab_dim_t j);
 
 /* Kopiado de matrico
  * @param matrix estas referenco al matrico, kiu estas kopiata 
  * @parar copy estas kopio de la fonta matrico, vi devas pasigi nepravalorizatan referencon
  * @return kopio aŭ 0, se eraro estas. */
-extern ulab_dense_matrix_t* ulab_dense_copy(ulab_dense_matrix_t* matrix);
+extern ulab_matrix_t* ulab_matrix_copy(ulab_matrix_t* matrix);
 
 /* Adicio de du matricoj a + b kaj konservado de rezulto al a
  * @param a unua matrica, gxi konservas rezulton de adicio
  * @param b dua matrica
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_dense_add(ulab_dense_matrix_t* matrix_a, ulab_dense_matrix_t* matrix_b);
+extern ulab_error_t ulab_matrix_add(ulab_matrix_t* matrix_a, ulab_matrix_t* matrix_b);
 
 /* Skalara multipliko de matrico 
  * @param matrix matrica, kiu estas multiplikata kaj kiu konservas rezulton
  * @param k skalara faktoro 
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_dense_smul(ulab_dense_matrix_t* matrix, ulab_element_t k);
+extern ulab_error_t ulab_matrix_smul(ulab_matrix_t* matrix, ulab_element_t k);
 
 /* Multipliko de du matricoj a * b kaj konservado de rezulto al a
  * @param a unua matrica, gxi konservas rezulton de multipliko
  * @param b dua matrica
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_dense_mmul(ulab_dense_matrix_t* matrix_a, ulab_dense_matrix_t* matrix_b);
+extern ulab_error_t ulab_matrix_mmul(ulab_matrix_t* matrix_a, ulab_matrix_t* matrix_b);
 #endif

@@ -29,13 +29,13 @@ LA PROGRAMARO AUX GXIA UZADO. */
  * Publikaj funkcioj 
  * ===================================================================*/
 
-/* Kreado de densa matrico  */
-ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t rows, ulab_dim_t columns)
+/* Kreado de matrico  */
+ulab_matrix_t* ulab_matrix_new(ulab_dim_t rows, ulab_dim_t columns)
 {
-  ulab_dense_matrix_t *m;
+  ulab_matrix_t *m;
   int i;
 
-  m = ulab_malloc(sizeof(ulab_dense_matrix_t));
+  m = ulab_malloc(sizeof(ulab_matrix_t));
 
   m->rows = rows;
   m->columns = columns;
@@ -46,18 +46,18 @@ ulab_dense_matrix_t* ulab_dense_create(ulab_dim_t rows, ulab_dim_t columns)
 }
 
 /* Detruado de matrico */
-void ulab_dense_free(ulab_dense_matrix_t *m)
+void ulab_matrix_destroy(ulab_matrix_t *m)
 {
   ulab_free(m->data);
   ulab_free(m);
 }
 
-/* Kreado de nula densa matrico */
-ulab_dense_matrix_t* ulab_dense_create_zero(ulab_dim_t rows, ulab_dim_t columns)
+/* Kreado de nula matrico */
+ulab_matrix_t* ulab_matrix_zero(ulab_dim_t rows, ulab_dim_t columns)
 { 
   ulab_dim_t i,c;
 
-  ulab_dense_matrix_t *matrix = ulab_dense_create(rows, columns);
+  ulab_matrix_t *matrix = ulab_matrix_new(rows, columns);
 
   c = rows * columns;
   for (i = 0; i < c; i++) {
@@ -68,7 +68,7 @@ ulab_dense_matrix_t* ulab_dense_create_zero(ulab_dim_t rows, ulab_dim_t columns)
 }
 
 /* Legadi de matrica elemento */
-ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, ulab_dim_t i, ulab_dim_t j)
+ulab_error_t ulab_matrix_get_el(ulab_matrix_t* matrix, ulab_element_t *value, ulab_dim_t i, ulab_dim_t j)
 {
   ulab_dim_t index = i*matrix->columns + j;
 
@@ -80,7 +80,7 @@ ulab_error_t ulab_dense_get(ulab_dense_matrix_t* matrix, ulab_element_t *value, 
 }
 
 /* Skribado de matrica elemento */
-ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t value, ulab_dim_t i, ulab_dim_t j)
+ulab_error_t ulab_matrix_set_el(ulab_matrix_t* matrix, ulab_element_t value, ulab_dim_t i, ulab_dim_t j)
 {
   ulab_dim_t index = i*matrix->columns + j;
 
@@ -92,13 +92,13 @@ ulab_error_t ulab_dense_set(ulab_dense_matrix_t* matrix, ulab_element_t value, u
 }
 
 /* Kopiado de matrico */
-ulab_dense_matrix_t* ulab_dense_copy(ulab_dense_matrix_t* matrix) 
+ulab_matrix_t* ulab_matrix_copy(ulab_matrix_t* matrix) 
 {
   ulab_dim_t i, c;
-  ulab_dense_matrix_t *copy;
+  ulab_matrix_t *copy;
 
   /* Eligu memoro por la kopio */
-  copy = ulab_dense_create(matrix->rows, matrix->columns);
+  copy = ulab_matrix_new(matrix->rows, matrix->columns);
   if (copy == NULL)
     return copy;
   
@@ -111,7 +111,7 @@ ulab_dense_matrix_t* ulab_dense_copy(ulab_dense_matrix_t* matrix)
 }
 
 /* Adicio de du matricoj a + b kaj konservado de rezulto al a */
-ulab_error_t ulab_dense_add(ulab_dense_matrix_t* matrix_a, ulab_dense_matrix_t* matrix_b)
+ulab_error_t ulab_matrix_add(ulab_matrix_t* matrix_a, ulab_matrix_t* matrix_b)
 {
   ulab_dim_t i;
 
@@ -128,7 +128,7 @@ ulab_error_t ulab_dense_add(ulab_dense_matrix_t* matrix_a, ulab_dense_matrix_t* 
 }
 
 /* Skalara multipliko de matrico */
-ulab_error_t ulab_dense_smul(ulab_dense_matrix_t* matrix, ulab_element_t k)
+ulab_error_t ulab_matrix_smul(ulab_matrix_t* matrix, ulab_element_t k)
 {
   ulab_dim_t i, c;
 
@@ -140,7 +140,7 @@ ulab_error_t ulab_dense_smul(ulab_dense_matrix_t* matrix, ulab_element_t k)
 }
 
 /* Multipliko de du matricoj a * b kaj konservado de rezulto al a */
-ulab_error_t ulab_dense_mmul(ulab_dense_matrix_t* matrix_a, ulab_dense_matrix_t* matrix_b)
+ulab_error_t ulab_matrix_mmul(ulab_matrix_t* matrix_a, ulab_matrix_t* matrix_b)
 {
   return ULAB_ERROR;
 }
