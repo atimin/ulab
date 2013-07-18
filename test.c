@@ -94,9 +94,8 @@ void test_copy(ulab_matrix_t* m)
 {
   ulab_matrix_t *n;
   int i;
-  n = ulab_matrix_copy(m);
+  assert(ulab_matrix_copy(m, n) == ULAB_OK);
 
-  assert(n);
   for (i = 0; i < m->count; i++) {
     assert(m->data[i] == n->data[i]);
   }

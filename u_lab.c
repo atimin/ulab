@@ -92,22 +92,20 @@ ulab_error_t ulab_matrix_set_el(ulab_matrix_t* matrix, ulab_element_t value, ula
 }
 
 /* Kopiado de matrico */
-ulab_matrix_t* ulab_matrix_copy(ulab_matrix_t* matrix) 
+ulab_error_t ulab_matrix_copy(ulab_matrix_t* matrix, ulab_matrix_t* copy) 
 {
   ulab_dim_t i, c;
-  ulab_matrix_t *copy;
 
   /* Eligu memoro por la kopio */
   copy = ulab_matrix_new(matrix->rows, matrix->columns);
-  if (copy == NULL)
-    return copy;
+  if (copy == NULL) ULAB_ERROR;
   
   /* Kopiu elementojn po unu */
   for (i = 0; i < matrix->count; i++) {
     copy->data[i] = matrix->data[i];
   }
   
-  return copy;
+  return ULAB_OK;
 }
 
 /* Adicio de du matricoj a + b kaj konservado de rezulto al a */

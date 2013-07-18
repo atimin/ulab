@@ -90,8 +90,8 @@ extern ulab_error_t ulab_matrix_set_el(ulab_matrix_t* matrix, ulab_element_t val
 /* Kopiado de matrico
  * @param matrix estas referenco al matrico, kiu estas kopiata 
  * @parar copy estas kopio de la fonta matrico, vi devas pasigi nepravalorizatan referencon
- * @return kopio aŭ 0, se eraro estas. */
-extern ulab_matrix_t* ulab_matrix_copy(ulab_matrix_t* matrix);
+ * @return kodo de eraro @see ulab_error_t*/
+extern ulab_error_t ulab_matrix_copy(ulab_matrix_t* matrix, ulab_matrix_t* copy);
 
 /* Adicio de du matricoj a + b kaj konservado de rezulto al a
  * @param a unua matrica, gxi konservas rezulton de adicio
