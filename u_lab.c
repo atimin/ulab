@@ -72,11 +72,11 @@ ulab_error_t ulab_matrix_get_el(ulab_matrix_t* matrix, ulab_element_t *value, ul
 {
   ulab_dim_t index = i*matrix->columns + j;
 
-  if (index >= matrix->count) return ULAB_ERROR;
+  if (index >= matrix->count) return ULAB_OUT_RANGE_ERROR;
 
   *value = matrix->data[index];
 
-  return ULAB_OK;
+  return ULAB_NO_ERROR;
 }
 
 /* Skribado de matrica elemento */
@@ -84,11 +84,11 @@ ulab_error_t ulab_matrix_set_el(ulab_matrix_t* matrix, ulab_element_t value, ula
 {
   ulab_dim_t index = i*matrix->columns + j;
 
-  if (index >= matrix->count) return ULAB_ERROR;
+  if (index >= matrix->count) return ULAB_OUT_RANGE_ERROR;
  
   matrix->data[index] = value;
 
-  return ULAB_OK;
+  return ULAB_NO_ERROR;
 }
 
 /* Kopiado de matrico */
@@ -98,14 +98,14 @@ ulab_error_t ulab_matrix_copy(ulab_matrix_t* matrix, ulab_matrix_t* copy)
 
   /* Eligu memoro por la kopio */
   copy = ulab_matrix_new(matrix->rows, matrix->columns);
-  if (copy == NULL) ULAB_ERROR;
+  if (copy == NULL) return ULAB_ALLOC_ERROR;
   
   /* Kopiu elementojn po unu */
   for (i = 0; i < matrix->count; i++) {
     copy->data[i] = matrix->data[i];
   }
   
-  return ULAB_OK;
+  return ULAB_NO_ERROR;
 }
 
 /* Adicio de du matricoj a + b kaj konservado de rezulto al a */
@@ -115,14 +115,14 @@ ulab_error_t ulab_matrix_add(ulab_matrix_t* matrix_a, ulab_matrix_t* matrix_b)
 
   /* Testu dimensiojn de matricoj. Ili devas esti egalaj */
   if (matrix_a->rows != matrix_b->rows 
-      || matrix_a->columns != matrix_b->columns) return ULAB_ERROR;
+      || matrix_a->columns != matrix_b->columns) return ULAB_NO_EQL_FORM;
 
   /* Adiciu elementojn de matricoj */
   for (i = 0; i < matrix_a->count; i++) {
     matrix_a->data[i] += matrix_b->data[i];
   }
 
-  return ULAB_OK;
+  return ULAB_NO_ERROR;
 }
 
 /* Skalara multipliko de matrico */
@@ -134,11 +134,11 @@ ulab_error_t ulab_matrix_smul(ulab_matrix_t* matrix, ulab_element_t k)
     matrix->data[i] *= k;
   }
 
-  return ULAB_OK;
+  return ULAB_NO_ERROR;
 }
 
 /* Multipliko de du matricoj a * b kaj konservado de rezulto al a */
 ulab_error_t ulab_matrix_mmul(ulab_matrix_t* matrix_a, ulab_matrix_t* matrix_b)
 {
-  return ULAB_ERROR;
+  return ULAB_NO_ERROR;
 }

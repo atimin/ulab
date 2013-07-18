@@ -86,15 +86,16 @@ void test_checking_coords(ulab_matrix_t* m)
 {
   ulab_element_t val = 0;
 
-  assert(ULAB_ERROR == ulab_matrix_set_el(m, val, 5, 4));
-  assert(ULAB_ERROR == ulab_matrix_get_el(m, &val, 4,6));
+  assert(ULAB_OUT_RANGE_ERROR == ulab_matrix_set_el(m, val, 5, 4));
+  assert(ULAB_OUT_RANGE_ERROR == ulab_matrix_get_el(m, &val, 4,6));
 }
 
 void test_copy(ulab_matrix_t* m)
 {
   ulab_matrix_t *n;
   int i;
-  assert(ulab_matrix_copy(m, n) == ULAB_OK);
+
+  assert(ulab_matrix_copy(m, n) == ULAB_NO_ERROR);
 
   for (i = 0; i < m->count; i++) {
     assert(m->data[i] == n->data[i]);
@@ -117,7 +118,7 @@ void test_adiciado(ulab_matrix_t* m)
   ulab_matrix_set_el(m, 4, 2, 2);
   ulab_matrix_set_el(b, 8, 2, 2);
 
-  assert(ulab_matrix_add(m,b) == ULAB_OK);
+  assert(ulab_matrix_add(m,b) == ULAB_NO_ERROR);
 
   ulab_matrix_get_el(m, &v, 1, 2);
   assert(v == 4);
@@ -136,7 +137,7 @@ void test_adiciado_checking(ulab_matrix_t *m)
   
   ulab_matrix_t* b = ulab_matrix_new(3, 2);
 
-  assert(ulab_matrix_add(m,b) == ULAB_ERROR);
+  assert(ulab_matrix_add(m,b) == ULAB_NO_EQL_FORM);
 
   ulab_free(b);
 }
@@ -151,7 +152,7 @@ void test_scalar_multiplication(ulab_matrix_t *m)
   ulab_matrix_set_el(m, -1, 3, 4);
   ulab_matrix_set_el(m, 4, 2, 2);
 
-  assert(ulab_matrix_smul(m, k) == ULAB_OK);
+  assert(ulab_matrix_smul(m, k) == ULAB_NO_ERROR);
 
   ulab_matrix_get_el(m, &v, 1, 2);
   assert(v == 2);

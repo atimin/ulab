@@ -34,8 +34,10 @@ typedef int ulab_element_t;
 
 /* Tipo de eraro. Eraro egalas 0, se kodo ruligxis sen problemoj */
 typedef enum {
-  ULAB_ERROR = -1,
-  ULAB_OK
+  ULAB_NO_ERROR = 0,      /* Cxio bone */
+  ULAB_ALLOC_ERROR,       /* Memoro ne estas eligita */ 
+  ULAB_OUT_RANGE_ERROR,   /* Eliro ekster de dimensio */
+  ULAB_NO_EQL_FORM        /* Matricoj havas diversajn formojn */
 } ulab_error_t;
 
 /* La gxenerala strukturo de densa matrico */
