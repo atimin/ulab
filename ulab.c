@@ -19,8 +19,7 @@ LAUX PLENDO PRI KOMPENSAJXO DE DAMAGXO, MALPROFITO AUX ALIAJ POSTULOJ
 LAUX EFIKANTAJ KONTRAKTOJ AUX LAUX IA AJN ALIA KIALO, KIU RILATAS KUN
 LA PROGRAMARO AUX GXIA UZADO. */
 
-#include "u_lab.h"
-#include <stdio.h>
+#include "ulab.h"
 /*======================================================================
  * Privataj funkcioj 
  * ===================================================================*/
@@ -96,10 +95,6 @@ ulab_error_t ulab_matrix_copy(ulab_matrix_t* matrix, ulab_matrix_t* copy)
 {
   ulab_dim_t i, c;
 
-  /* Eligu memoro por la kopio */
-  copy = ulab_matrix_new(matrix->rows, matrix->columns);
-  if (copy == NULL) return ULAB_ALLOC_ERROR;
-  
   /* Kopiu elementojn po unu */
   for (i = 0; i < matrix->count; i++) {
     copy->data[i] = matrix->data[i];
