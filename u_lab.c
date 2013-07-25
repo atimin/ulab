@@ -155,5 +155,30 @@ ulab_error_t ulab_matrix_smul(ulab_matrix_t* matrix, ulab_element_t k)
 /* Multipliko de du matricoj a * b kaj konservado de rezulto al a */
 ulab_error_t ulab_matrix_mmul(ulab_matrix_t* matrix_a, ulab_matrix_t* matrix_b)
 {
+  ulab_dim_t i, j, n, count, rows, columns, com;
+
+  rows = matrix_a->rows;
+  columns = matrix_b->columns;
+  com = matrix_b->rows;
+  count = rows * columns;
+
+  ulab_element_t *data = ulab_malloc(sizeof(ulab_element_t) * count);
+  
+  for (i = 0; i < rows; i++) {
+    for (j = 0; j < columns; j++) {
+      data[columns*i + j] = 0;
+      for (n = 0; n < com; n++) {
+        data[columns*i + j] += matrix_a->data[matrix_a->columns*i + n] * matrix_b->data[matrix_b->columns*n + j];
+      }
+    }
+  }
+
+  ulab_free(matrix_a->data);
+
+  matrix_a->rows = rows;
+  matrix_a->columns = columns;
+  matrix_a->count = count;
+  matrix_a->data = data;
+  
   return ULAB_NO_ERROR;
 }

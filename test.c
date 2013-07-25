@@ -178,6 +178,45 @@ void test_scalar_multiplication(ulab_matrix_t *m)
   assert(v == 8);
 }
 
+void test_matrix_multiplication(ulab_matrix_t* m)
+{
+  ulab_element_t v;
+  
+  ulab_element_t arr_a[] = {1, 3, 1, 2};
+  ulab_element_t arr_b[] = {1, 2, 1, 3, 1, 0};
+  ulab_element_t arr_result[] = {10, 5, 1, 7, 4, 1};
+
+
+
+  ulab_matrix_t* a = ulab_matrix_from_ary(2, 2, arr_a);
+  ulab_matrix_t* b = ulab_matrix_from_ary(2, 3, arr_b);
+
+  assert(ulab_matrix_mmul(a, b) == ULAB_NO_ERROR);
+  
+  
+  /* Testu elementojn */
+  ulab_matrix_get_el(a, 0, 0, &v);
+  assert(v == 10);
+
+  ulab_matrix_get_el(a, 0, 1, &v);
+  assert(v == 5);
+
+  ulab_matrix_get_el(a, 0, 2, &v);
+  assert(v == 1);
+
+  ulab_matrix_get_el(a, 1, 0, &v);
+  assert(v == 7);
+
+  ulab_matrix_get_el(a, 1, 1, &v);
+  assert(v == 4);
+
+  ulab_matrix_get_el(a, 1, 2, &v);
+  assert(v == 1);
+
+  ulab_free(a);
+  ulab_free(b);
+}
+
 int main()
 {
   test_frame("Testas kreado de nula matrico.", test_creating_zero);
@@ -189,6 +228,6 @@ int main()
   test_frame("Testas adiciadon de matricoj.", test_adiciado);
   test_frame("Testas testo de gxustaj datumoj por adiciadon de matricoj.", test_adiciado_checking);
   test_frame("Testas skalaran multiplikon de matricoj.", test_scalar_multiplication);
-  /* test_frame("Testas matrican multiplikon de densaj matricoj.", test_matrix_multiplication); */
+  test_frame("Testas matrican multiplikon de densaj matricoj.", test_matrix_multiplication);
   return 1;
 }
