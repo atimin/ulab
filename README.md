@@ -28,7 +28,7 @@ Simple kopiu dosierojn en via projekto.
 Testado
 -------------------------------------------
 
-Provu en radiko de projekto:  `gcc -o test test.c u_lab.c`
+Provu en radiko de projekto:  `gcc -o test test.c ulab.c`
 
 Ligiloj
 -------------------------------------------
