@@ -19,7 +19,7 @@ LAUX PLENDO PRI KOMPENSAJXO DE DAMAGXO, MALPROFITO AUX ALIAJ POSTULOJ
 LAUX EFIKANTAJ KONTRAKTOJ AUX LAUX IA AJN ALIA KIALO, KIU RILATAS KUN
 LA PROGRAMARO AUX GXIA UZADO. */
 
-#include "u_lab.h"
+#include "ulab.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -109,6 +109,7 @@ void test_copy(ulab_matrix_t* m)
   ulab_matrix_t *n;
   int i;
 
+  n = ulab_matrix_new(m->rows, m->columns);
   assert(ulab_matrix_copy(m, n) == ULAB_NO_ERROR);
 
   for (i = 0; i < m->count; i++) {

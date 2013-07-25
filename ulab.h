@@ -23,7 +23,6 @@ LA PROGRAMARO AUX GXIA UZADO. */
 #define _ULAB_
 
 #include <stdio.h>
-
 /* Tipo, kiun uzas por difino de dimensioj 
  * Vi povas sxangxi gxin por via tasko */
 typedef unsigned int ulab_dim_t;
@@ -98,7 +97,7 @@ extern ulab_error_t ulab_matrix_set_el(ulab_matrix_t* matrix, ulab_dim_t i, ulab
 
 /* Kopiado de matrico
  * @param matrix estas referenco al matrico, kiu estas kopiata 
- * @parar copy estas kopio de la fonta matrico, vi devas pasigi nepravalorizatan referencon
+ * @parar copy estas kopio de la fonta matrico, vi devas pasigi pravalorizatan matricon
  * @return kodo de eraro @see ulab_error_t*/
 extern ulab_error_t ulab_matrix_copy(ulab_matrix_t* matrix, ulab_matrix_t* copy);
 
