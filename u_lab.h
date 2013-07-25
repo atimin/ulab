@@ -69,25 +69,32 @@ extern ulab_matrix_t* ulab_matrix_new(ulab_dim_t rows, ulab_dim_t columns);
  * @return matrix estas referenco al matrico, kiu estas kreita */
 extern ulab_matrix_t* ulab_matrix_zero(ulab_dim_t rows, ulab_dim_t columns);
 
+/* Kreado de matrico el tabelo
+ * @param rows estas kiomo de vicoj
+ * @param columns estas kiomo de kolumnoj
+ * @param estas referenco al tabelo, kiu estas fonto
+ * @return matrix estas referenco al matrico, kiu estas kreita */
+extern ulab_matrix_t* ulab_matrix_from_ary(ulab_dim_t rows, ulab_dim_t columns, ulab_element_t* ary);
+
 /* Detruado de matrico */
 extern void ulab_matrix_destroy(ulab_matrix_t *m);
 /*==================================================================*/
 
 /* Legado de matrica elemento
  * @param matrix estas referenco al matrico
- * @param value estas referenco al variablo, kiu konservas rezulton 
  * @param i estas indekso de vico 
  * @param j estas indekso de kolumno
+ * @param value estas referenco al variablo, kiu konservas rezulton 
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_matrix_get_el(ulab_matrix_t* matrix, ulab_element_t *value, ulab_dim_t i, ulab_dim_t j);
+extern ulab_error_t ulab_matrix_get_el(ulab_matrix_t* matrix, ulab_dim_t i, ulab_dim_t j, ulab_element_t* value);
 
 /* Skribado de elemento de matrico 
  * @param matrix estas referenco al matrico
- * @param value estas referenco al variablo, kiun oni skribas 
  * @param i estas indekso de vico 
  * @param j estas indekso de kolumno
+ * @param value estas signifo, kiun oni skribas 
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_matrix_set_el(ulab_matrix_t* matrix, ulab_element_t value, ulab_dim_t i, ulab_dim_t j);
+extern ulab_error_t ulab_matrix_set_el(ulab_matrix_t* matrix, ulab_dim_t i, ulab_dim_t j, ulab_element_t value);
 
 /* Kopiado de matrico
  * @param matrix estas referenco al matrico, kiu estas kopiata 

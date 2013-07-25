@@ -67,8 +67,23 @@ ulab_matrix_t* ulab_matrix_zero(ulab_dim_t rows, ulab_dim_t columns)
   return matrix;
 }
 
+/* Kreado de matrico el tabelo */
+ulab_matrix_t* ulab_matrix_from_ary(ulab_dim_t rows, ulab_dim_t columns, ulab_element_t* ary)
+{
+  ulab_dim_t i,c;
+
+  ulab_matrix_t *matrix = ulab_matrix_new(rows, columns);
+  
+  c = rows * columns;
+  for (i = 0; i < c; i++) {
+    matrix->data[i] = ary[i];
+  }
+
+  return matrix;
+}
+
 /* Legadi de matrica elemento */
-ulab_error_t ulab_matrix_get_el(ulab_matrix_t* matrix, ulab_element_t *value, ulab_dim_t i, ulab_dim_t j)
+ulab_error_t ulab_matrix_get_el(ulab_matrix_t* matrix, ulab_dim_t i, ulab_dim_t j, ulab_element_t* value)
 {
   ulab_dim_t index = i*matrix->columns + j;
 
@@ -80,7 +95,7 @@ ulab_error_t ulab_matrix_get_el(ulab_matrix_t* matrix, ulab_element_t *value, ul
 }
 
 /* Skribado de matrica elemento */
-ulab_error_t ulab_matrix_set_el(ulab_matrix_t* matrix, ulab_element_t value, ulab_dim_t i, ulab_dim_t j)
+ulab_error_t ulab_matrix_set_el(ulab_matrix_t* matrix, ulab_dim_t i, ulab_dim_t j, ulab_element_t value)
 {
   ulab_dim_t index = i*matrix->columns + j;
 

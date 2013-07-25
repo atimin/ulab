@@ -65,11 +65,25 @@ void test_creating_zero(ulab_matrix_t *m)
 
   ulab_free(a);
 }
+
+void test_from_ary(ulab_matrix_t *m)
+{
+  ulab_matrix_t *n;
+  ulab_element_t v;
+  ulab_element_t ary[] = { 1,2, 3,4, 5,6 };
+
+  n = ulab_matrix_from_ary(3, 2, ary);
+
+  assert(ulab_matrix_get_el(n, 2, 1, &v) == ULAB_NO_ERROR);
+  assert(v == 6);
+
+  ulab_matrix_destroy(n);
+}
 void test_ulab_get(ulab_matrix_t* m)
 {
   ulab_element_t val = 0;
   m->data[6] = 99;
-  ulab_matrix_get_el(m, &val, 1,1);
+  ulab_matrix_get_el(m, 1, 1, &val);
 
   assert(val == m->data[6]);
 }
@@ -77,7 +91,7 @@ void test_ulab_get(ulab_matrix_t* m)
 void test_ulab_set(ulab_matrix_t* m)
 {
   ulab_element_t val = 66;
-  ulab_matrix_set_el(m, val, 3,3);
+  ulab_matrix_set_el(m, 3, 3, val);
 
   assert(val == m->data[18]);
 }
@@ -86,8 +100,8 @@ void test_checking_coords(ulab_matrix_t* m)
 {
   ulab_element_t val = 0;
 
-  assert(ULAB_OUT_RANGE_ERROR == ulab_matrix_set_el(m, val, 5, 4));
-  assert(ULAB_OUT_RANGE_ERROR == ulab_matrix_get_el(m, &val, 4,6));
+  assert(ULAB_OUT_RANGE_ERROR == ulab_matrix_set_el(m, 5, 4, val));
+  assert(ULAB_OUT_RANGE_ERROR == ulab_matrix_get_el(m, 4,6, &val));
 }
 
 void test_copy(ulab_matrix_t* m)
@@ -108,25 +122,25 @@ void test_adiciado(ulab_matrix_t* m)
   ulab_matrix_t* b = ulab_matrix_new(4,5);
   
   /* Testu per tri elementoj */
-  ulab_matrix_set_el(m, 1, 1, 2);
-  ulab_matrix_set_el(b, 3, 1, 2);
+  ulab_matrix_set_el(m, 1, 2, 1);
+  ulab_matrix_set_el(b, 1, 2, 3);
 
 
-  ulab_matrix_set_el(m, -1, 3, 4);
-  ulab_matrix_set_el(b, 0, 3, 4);
+  ulab_matrix_set_el(m, 3, 4, -1);
+  ulab_matrix_set_el(b, 3, 4, 0);
 
-  ulab_matrix_set_el(m, 4, 2, 2);
-  ulab_matrix_set_el(b, 8, 2, 2);
+  ulab_matrix_set_el(m, 2, 2, 4);
+  ulab_matrix_set_el(b, 2, 2, 8);
 
   assert(ulab_matrix_add(m,b) == ULAB_NO_ERROR);
 
-  ulab_matrix_get_el(m, &v, 1, 2);
+  ulab_matrix_get_el(m, 1, 2, &v);
   assert(v == 4);
 
-  ulab_matrix_get_el(m, &v, 3, 4);
+  ulab_matrix_get_el(m, 3, 4, &v);
   assert(v == -1);
 
-  ulab_matrix_get_el(m, &v, 2, 2);
+  ulab_matrix_get_el(m, 2, 2, &v);
   assert(v == 12);
 
   ulab_free(b);
@@ -148,32 +162,33 @@ void test_scalar_multiplication(ulab_matrix_t *m)
   ulab_element_t k = 2;
   
   /* Testu per tri elementoj */
-  ulab_matrix_set_el(m, 1, 1, 2);
-  ulab_matrix_set_el(m, -1, 3, 4);
-  ulab_matrix_set_el(m, 4, 2, 2);
+  ulab_matrix_set_el(m, 1, 2, 1);
+  ulab_matrix_set_el(m, 3, 4, -1);
+  ulab_matrix_set_el(m, 2, 2, 4);
 
   assert(ulab_matrix_smul(m, k) == ULAB_NO_ERROR);
 
-  ulab_matrix_get_el(m, &v, 1, 2);
+  ulab_matrix_get_el(m, 1, 2, &v);
   assert(v == 2);
 
-  ulab_matrix_get_el(m, &v, 3, 4);
+  ulab_matrix_get_el(m, 3, 4, &v);
   assert(v == -2);
 
-  ulab_matrix_get_el(m, &v, 2, 2);
+  ulab_matrix_get_el(m, 2, 2, &v);
   assert(v == 8);
 }
 
 int main()
 {
-  test_frame("Testas kreado de nula densa matrixo.", test_creating_zero);
-  test_frame("Testas legadon de elemento de densa matrico.", test_ulab_get);
-  test_frame("Testas skribadon de elemento de densa matrico.", test_ulab_set);
-  test_frame("Testas foriron ekstre de densa  matrico.", test_checking_coords);
-  test_frame("Testas kopiadon de densa matrico.", test_copy);
-  test_frame("Testas adiciadon de densaj matricoj.", test_adiciado);
-  test_frame("Testas testo de gxustaj datumoj por adiciadon de densaj matricoj.", test_adiciado_checking);
-  test_frame("Testas skalaran multiplikon de densaj matricoj.", test_scalar_multiplication);
+  test_frame("Testas kreado de nula matrico.", test_creating_zero);
+  test_frame("Testas kreado de matrico el tabelo.", test_from_ary);
+  test_frame("Testas legadon de elemento de matrico.", test_ulab_get);
+  test_frame("Testas skribadon de elemento de matrico.", test_ulab_set);
+  test_frame("Testas foriron ekstre de matrico.", test_checking_coords);
+  test_frame("Testas kopiadon de matrico.", test_copy);
+  test_frame("Testas adiciadon de matricoj.", test_adiciado);
+  test_frame("Testas testo de gxustaj datumoj por adiciadon de matricoj.", test_adiciado_checking);
+  test_frame("Testas skalaran multiplikon de matricoj.", test_scalar_multiplication);
   /* test_frame("Testas matrican multiplikon de densaj matricoj.", test_matrix_multiplication); */
   return 1;
 }
