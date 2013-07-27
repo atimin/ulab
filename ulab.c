@@ -125,7 +125,7 @@ ulab_error_t ulab_matrix_add(ulab_matrix_t* matrix_a, ulab_matrix_t* matrix_b)
 
   /* Testu dimensiojn de matricoj. Ili devas esti egalaj */
   if (matrix_a->rows != matrix_b->rows 
-      || matrix_a->columns != matrix_b->columns) return ULAB_NO_EQL_FORM;
+      || matrix_a->columns != matrix_b->columns) return ULAB_FORM_ERROR;
 
   /* Adiciu elementojn de matricoj */
   for (i = 0; i < matrix_a->count; i++) {
@@ -151,6 +151,9 @@ ulab_error_t ulab_matrix_smul(ulab_matrix_t* matrix, ulab_element_t k)
 ulab_error_t ulab_matrix_mmul(ulab_matrix_t* matrix_a, ulab_matrix_t* matrix_b)
 {
   ulab_dim_t i, j, n, count, rows, columns, com;
+
+  /* Testo de formoj de matricoj */
+  if (matrix_a->columns != matrix_b->rows) return ULAB_FORM_ERROR;
 
   rows = matrix_a->rows;
   columns = matrix_b->columns;

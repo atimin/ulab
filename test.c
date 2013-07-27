@@ -26,6 +26,9 @@ LA PROGRAMARO AUX GXIA UZADO. */
 
 /*==============================================================================*/
 
+#define M_ROWS 4
+#define M_COLUMNS 5
+
 void *ulab_malloc(size_t size)
 {
   return malloc(size);
@@ -44,7 +47,7 @@ void test_frame(const char *msg, test_func f)
   ulab_matrix_t *m;
 
 
-  m = ulab_matrix_new(4,5);
+  m = ulab_matrix_new(M_ROWS, M_COLUMNS);
 
   f(m);
 
@@ -117,7 +120,7 @@ void test_copy(ulab_matrix_t* m)
   }
 }
 
-void test_adiciado(ulab_matrix_t* m)
+void test_add(ulab_matrix_t* m)
 {
   ulab_element_t v = 0;
   ulab_matrix_t* b = ulab_matrix_new(4,5);
@@ -147,17 +150,17 @@ void test_adiciado(ulab_matrix_t* m)
   ulab_free(b);
 }
 
-void test_adiciado_checking(ulab_matrix_t *m)
+void test_add_checking(ulab_matrix_t *m)
 {
   
   ulab_matrix_t* b = ulab_matrix_new(3, 2);
 
-  assert(ulab_matrix_add(m,b) == ULAB_NO_EQL_FORM);
+  assert(ulab_matrix_add(m,b) == ULAB_FORM_ERROR);
 
   ulab_free(b);
 }
 
-void test_scalar_multiplication(ulab_matrix_t *m)
+void test_scalar_mul(ulab_matrix_t *m)
 {
   ulab_element_t v = 0;
   ulab_element_t k = 2;
@@ -179,7 +182,7 @@ void test_scalar_multiplication(ulab_matrix_t *m)
   assert(v == 8);
 }
 
-void test_matrix_multiplication(ulab_matrix_t* m)
+void test_matrix_mul(ulab_matrix_t* m)
 {
   ulab_element_t v;
   
@@ -193,7 +196,6 @@ void test_matrix_multiplication(ulab_matrix_t* m)
   ulab_matrix_t* b = ulab_matrix_from_ary(2, 3, arr_b);
 
   assert(ulab_matrix_mmul(a, b) == ULAB_NO_ERROR);
-  
   
   /* Testu elementojn */
   ulab_matrix_get_el(a, 0, 0, &v);
@@ -218,17 +220,28 @@ void test_matrix_multiplication(ulab_matrix_t* m)
   ulab_free(b);
 }
 
+void test_matrix_mul_checking(ulab_matrix_t *m)
+{
+  
+  ulab_matrix_t* b = ulab_matrix_new(3, 2);
+
+  assert(ulab_matrix_mmul(m,b) == ULAB_FORM_ERROR);
+
+  ulab_free(b);
+}
+
 int main()
 {
-  test_frame("Testas kreado de nula matrico.", test_creating_zero);
-  test_frame("Testas kreado de matrico el tabelo.", test_from_ary);
+  test_frame("Testas kreadon de nula matrico.", test_creating_zero);
+  test_frame("Testas kreadon de matrico el tabelo.", test_from_ary);
   test_frame("Testas legadon de elemento de matrico.", test_ulab_get);
   test_frame("Testas skribadon de elemento de matrico.", test_ulab_set);
   test_frame("Testas foriron ekstre de matrico.", test_checking_coords);
   test_frame("Testas kopiadon de matrico.", test_copy);
-  test_frame("Testas adiciadon de matricoj.", test_adiciado);
-  test_frame("Testas testo de gxustaj datumoj por adiciadon de matricoj.", test_adiciado_checking);
-  test_frame("Testas skalaran multiplikon de matricoj.", test_scalar_multiplication);
-  test_frame("Testas matrican multiplikon de densaj matricoj.", test_matrix_multiplication);
+  test_frame("Testas adiciadon de matricoj.", test_add);
+  test_frame("Testas teston de gxustaj datumoj por adicii matricojn.", test_add_checking);
+  test_frame("Testas skalaran multiplikon de matricoj.", test_scalar_mul);
+  test_frame("Testas matrican multiplikon de densaj matricoj.", test_matrix_mul);
+  test_frame("Testas teston de gxustaj datumoj por multipliki matricojn.", test_matrix_mul_checking);
   return 1;
 }
