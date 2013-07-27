@@ -56,14 +56,14 @@ ulab_matrix_t* ulab_matrix_zero(ulab_dim_t rows, ulab_dim_t columns)
 { 
   ulab_dim_t i,c;
 
-  ulab_matrix_t *matrix = ulab_matrix_new(rows, columns);
+  ulab_matrix_t *m = ulab_matrix_new(rows, columns);
 
   c = rows * columns;
   for (i = 0; i < c; i++) {
-    matrix->data[i] = 0;
+    m->data[i] = 0;
   }
 
-  return matrix;
+  return m;
 }
 
 /* Kreado de matrico el tabelo */
@@ -71,93 +71,93 @@ ulab_matrix_t* ulab_matrix_from_ary(ulab_dim_t rows, ulab_dim_t columns, ulab_el
 {
   ulab_dim_t i,c;
 
-  ulab_matrix_t *matrix = ulab_matrix_new(rows, columns);
+  ulab_matrix_t *m = ulab_matrix_new(rows, columns);
   
   c = rows * columns;
   for (i = 0; i < c; i++) {
-    matrix->data[i] = ary[i];
+    m->data[i] = ary[i];
   }
 
-  return matrix;
+  return m;
 }
 
 /* Legadi de matrica elemento */
-ulab_error_t ulab_matrix_get_el(ulab_matrix_t* matrix, ulab_dim_t i, ulab_dim_t j, ulab_element_t* value)
+ulab_error_t ulab_matrix_get_el(ulab_matrix_t* m, ulab_dim_t i, ulab_dim_t j, ulab_element_t* v)
 {
-  ulab_dim_t index = i*matrix->columns + j;
+  ulab_dim_t index = i*m->columns + j;
 
-  if (index >= matrix->count) return ULAB_OUT_RANGE_ERROR;
+  if (index >= m->count) return ULAB_OUT_RANGE_ERROR;
 
-  *value = matrix->data[index];
+  *v = m->data[index];
 
   return ULAB_NO_ERROR;
 }
 
 /* Skribado de matrica elemento */
-ulab_error_t ulab_matrix_set_el(ulab_matrix_t* matrix, ulab_dim_t i, ulab_dim_t j, ulab_element_t value)
+ulab_error_t ulab_matrix_set_el(ulab_matrix_t* m, ulab_dim_t i, ulab_dim_t j, ulab_element_t v)
 {
-  ulab_dim_t index = i*matrix->columns + j;
+  ulab_dim_t index = i*m->columns + j;
 
-  if (index >= matrix->count) return ULAB_OUT_RANGE_ERROR;
+  if (index >= m->count) return ULAB_OUT_RANGE_ERROR;
  
-  matrix->data[index] = value;
+  m->data[index] = v;
 
   return ULAB_NO_ERROR;
 }
 
 /* Kopiado de matrico */
-ulab_error_t ulab_matrix_copy(ulab_matrix_t* matrix, ulab_matrix_t* copy) 
+ulab_error_t ulab_matrix_copy(ulab_matrix_t* m, ulab_matrix_t* mc) 
 {
   ulab_dim_t i, c;
 
   /* Kopiu elementojn po unu */
-  for (i = 0; i < matrix->count; i++) {
-    copy->data[i] = matrix->data[i];
+  for (i = 0; i < m->count; i++) {
+    mc->data[i] = m->data[i];
   }
   
   return ULAB_NO_ERROR;
 }
 
 /* Adicio de du matricoj a + b kaj konservado de rezulto al a */
-ulab_error_t ulab_matrix_add(ulab_matrix_t* matrix_a, ulab_matrix_t* matrix_b)
+ulab_error_t ulab_matrix_add(ulab_matrix_t* ma, ulab_matrix_t* mb)
 {
   ulab_dim_t i;
 
   /* Testu dimensiojn de matricoj. Ili devas esti egalaj */
-  if (matrix_a->rows != matrix_b->rows 
-      || matrix_a->columns != matrix_b->columns) return ULAB_FORM_ERROR;
+  if (ma->rows != mb->rows 
+      || ma->columns != mb->columns) return ULAB_FORM_ERROR;
 
   /* Adiciu elementojn de matricoj */
-  for (i = 0; i < matrix_a->count; i++) {
-    matrix_a->data[i] += matrix_b->data[i];
+  for (i = 0; i < ma->count; i++) {
+    ma->data[i] += mb->data[i];
   }
 
   return ULAB_NO_ERROR;
 }
 
 /* Skalara multipliko de matrico */
-ulab_error_t ulab_matrix_smul(ulab_matrix_t* matrix, ulab_element_t k)
+ulab_error_t ulab_matrix_smul(ulab_matrix_t* m, ulab_element_t k)
 {
   ulab_dim_t i, c;
 
-  for (i = 0; i < matrix->count; i++) {
-    matrix->data[i] *= k;
+  for (i = 0; i < m->count; i++) {
+    m->data[i] *= k;
   }
 
   return ULAB_NO_ERROR;
 }
 
 /* Multipliko de du matricoj a * b kaj konservado de rezulto al a */
-ulab_error_t ulab_matrix_mmul(ulab_matrix_t* matrix_a, ulab_matrix_t* matrix_b)
+ulab_error_t ulab_matrix_mmul(ulab_matrix_t* ma, ulab_matrix_t* mb)
 {
   ulab_dim_t i, j, n, count, rows, columns, com;
 
   /* Testo de formoj de matricoj */
-  if (matrix_a->columns != matrix_b->rows) return ULAB_FORM_ERROR;
+  if (ma->columns != mb->rows) return ULAB_FORM_ERROR;
 
-  rows = matrix_a->rows;
-  columns = matrix_b->columns;
-  com = matrix_b->rows;
+  rows = ma->rows;
+  columns = mb->columns;
+  com = mb->rows;
   count = rows * columns;
 
   ulab_element_t *data = ulab_malloc(sizeof(ulab_element_t) * count);
@@ -166,17 +166,17 @@ ulab_error_t ulab_matrix_mmul(ulab_matrix_t* matrix_a, ulab_matrix_t* matrix_b)
     for (j = 0; j < columns; j++) {
       data[columns*i + j] = 0;
       for (n = 0; n < com; n++) {
-        data[columns*i + j] += matrix_a->data[matrix_a->columns*i + n] * matrix_b->data[matrix_b->columns*n + j];
+        data[columns*i + j] += ma->data[ma->columns*i + n] * mb->data[mb->columns*n + j];
       }
     }
   }
 
-  ulab_free(matrix_a->data);
+  ulab_free(ma->data);
 
-  matrix_a->rows = rows;
-  matrix_a->columns = columns;
-  matrix_a->count = count;
-  matrix_a->data = data;
+  ma->rows = rows;
+  ma->columns = columns;
+  ma->count = count;
+  ma->data = data;
   
   return ULAB_NO_ERROR;
 }

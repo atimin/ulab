@@ -85,7 +85,7 @@ extern void ulab_matrix_destroy(ulab_matrix_t *m);
  * @param j estas indekso de kolumno
  * @param value estas referenco al variablo, kiu konservas rezulton 
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_matrix_get_el(ulab_matrix_t* matrix, ulab_dim_t i, ulab_dim_t j, ulab_element_t* value);
+extern ulab_error_t ulab_matrix_get_el(ulab_matrix_t* m, ulab_dim_t i, ulab_dim_t j, ulab_element_t* v);
 
 /* Skribado de elemento de matrico 
  * @param matrix estas referenco al matrico
@@ -93,29 +93,29 @@ extern ulab_error_t ulab_matrix_get_el(ulab_matrix_t* matrix, ulab_dim_t i, ulab
  * @param j estas indekso de kolumno
  * @param value estas signifo, kiun oni skribas 
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_matrix_set_el(ulab_matrix_t* matrix, ulab_dim_t i, ulab_dim_t j, ulab_element_t value);
+extern ulab_error_t ulab_matrix_set_el(ulab_matrix_t* m, ulab_dim_t i, ulab_dim_t j, ulab_element_t v);
 
 /* Kopiado de matrico
  * @param matrix estas referenco al matrico, kiu estas kopiata 
  * @parar copy estas kopio de la fonta matrico, vi devas pasigi pravalorizatan matricon
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_matrix_copy(ulab_matrix_t* matrix, ulab_matrix_t* copy);
+extern ulab_error_t ulab_matrix_copy(ulab_matrix_t* m, ulab_matrix_t* mc);
 
 /* Adicio de du matricoj a + b kaj konservado de rezulto al a
  * @param a unua matrica, gxi konservas rezulton de adicio
  * @param b dua matrica
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_matrix_add(ulab_matrix_t* matrix_a, ulab_matrix_t* matrix_b);
+extern ulab_error_t ulab_matrix_add(ulab_matrix_t* ma, ulab_matrix_t* mb);
 
 /* Skalara multipliko de matrico 
  * @param matrix matrica, kiu estas multiplikata kaj kiu konservas rezulton
  * @param k skalara faktoro 
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_matrix_smul(ulab_matrix_t* matrix, ulab_element_t k);
+extern ulab_error_t ulab_matrix_smul(ulab_matrix_t* m, ulab_element_t k);
 
 /* Multipliko de du matricoj a * b kaj konservado de rezulto al a
  * @param a unua matrica, gxi konservas rezulton de multipliko
  * @param b dua matrica
  * @return kodo de eraro @see ulab_error_t*/
-extern ulab_error_t ulab_matrix_mmul(ulab_matrix_t* matrix_a, ulab_matrix_t* matrix_b);
+extern ulab_error_t ulab_matrix_mmul(ulab_matrix_t* ma, ulab_matrix_t* mb);
 #endif
