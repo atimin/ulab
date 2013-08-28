@@ -70,11 +70,9 @@ Ligiloj
 -------------------------------------------
 
 * [Kodo][1] - la projekto en GutHub
-* [Ligo de Internacia Programado][2] - se vi komprenas cxi tekston, partoprenu!
 * [LAPACK][3] - la granda frato
 * [Komputeko][4] - la vortaro da komputikaj terminoj
 
 [1]:https://github.com/flipback/ulab
-[2]:http://www.ldip.org
 [3]:http://www.netlib.org/lapack/
 [4]:http://komputeko.net/
